@@ -1,0 +1,15 @@
+{
+  "name": "pelican-bicycle",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "description": "The animated pelican-on-a-bicycle LLM benchmark",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "posters": "node scripts/shoot.mjs",
+    "serve": "node scripts/serve.mjs"
+  },
+  "devDependencies": {
+    "playwright-core": "^1.64.1"
+  }
+}

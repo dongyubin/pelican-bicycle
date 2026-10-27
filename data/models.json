@@ -1,0 +1,421 @@
+{
+  "testedAt": "2026-10-27",
+  "prompt": {
+    "zh": "创建一个 HTML，内容是 SVG 绘制一个鹈鹕骑自行车的 2D 动画，你不需要任何测试，不要有任何限制",
+    "en": "Create an HTML page containing a 2D SVG animation of a pelican riding a bicycle. You don't need any tests, and don't add any restrictions."
+  },
+  "models": [
+    {
+      "slug": "deepseek-flash",
+      "bib": "01",
+      "name": "DeepSeek Flash",
+      "nameZh": "DeepSeek Flash",
+      "vendor": "DeepSeek",
+      "vendorZh": "深度求索",
+      "role": { "en": "The illustrator", "zh": "插画师" },
+      "tagline": { "en": "A perfect bicycle that never pedals.", "zh": "一辆完美的车，永远不蹬。" },
+      "source": "鹈鹕骑自行车/pelican-bicycle-DeepSeek-flash.html",
+      "artifact": "deepseek-flash.html",
+      "accent": "#2E7D8F",
+      "control": "waapi",
+      "controls": { "en": "None", "zh": "无" },
+      "scores": {
+        "semantics": 4.5,
+        "anatomy": 3.5,
+        "bicycle": 5,
+        "motion": 1.5,
+        "polish": 3.5
+      },
+      "verdict": {
+        "en": "The most polished still frame in the test: gradient sky, helmet, scarf, water bottle, crisp road markings, and a pelican that genuinely sits on the saddle with both feet on the pedals. Then you watch it move. The wheels never rotate, the crank never turns, and the road slides underneath a bicycle that is visibly not pedalling. Only clouds, speed lines, dust puffs and a slow body bob are animated. No controls.",
+        "zh": "最精致的一张静帧：渐变天空、头盔、围巾、水壶、路面标线，鹈鹕确实坐在坐垫上、双脚踩在踏板上。但一动起来就露馅：轮子从不转，曲柄从不转，路面在滑动，而自行车明显没有在蹬。只有云、速度线、尘土和 1.6 秒的身体起伏在动。没有控制条。"
+      },
+      "works": {
+        "en": [
+          "Best illustration: composition, palette and small props are all considered.",
+          "Both feet are placed on the pedals and the body sits on the saddle.",
+          "Full bicycle: frame, fork, chain, chainring, bottle cage, valve details."
+        ],
+        "zh": [
+          "插画水平最高：构图、配色和小道具都很完整。",
+          "双脚都在踏板上，身体也确实坐在坐垫上。",
+          "自行车结构齐全：车架、前叉、链条、牙盘、水壶架、气门细节。"
+        ]
+      },
+      "breaks": {
+        "en": [
+          "Wheels and crank are completely static; the bike reads as sliding.",
+          "The wing is folded on the body, not holding the handlebar.",
+          "No pause or speed controls."
+        ],
+        "zh": [
+          "轮子和曲柄完全静止，整辆车看起来在打滑。",
+          "翅膀收在身体上，没有握住车把。",
+          "没有暂停或速度控制。"
+        ]
+      },
+      "motionCheck": { "wheels": false, "crank": false, "feet": false, "scene": true }
+    },
+    {
+      "slug": "kimi-k3-1-pro",
+      "bib": "02",
+      "name": "Kimi K3.1 Pro",
+      "nameZh": "Kimi K3.1 Pro",
+      "vendor": "Moonshot AI",
+      "vendorZh": "月之暗面",
+      "role": { "en": "The art director", "zh": "美术指导" },
+      "tagline": { "en": "The prettiest ride in the race.", "zh": "全场最好看的一次骑行。" },
+      "source": "鹈鹕骑自行车/pelican-cycling-animation-Kimi-K3.1-Pro.html",
+      "artifact": "kimi-k3-1-pro.html",
+      "accent": "#0F7C74",
+      "control": "button",
+      "pauseLabel": "暂停动画",
+      "resumeLabel": "继续动画",
+      "controls": { "en": "Pause button", "zh": "暂停按钮" },
+      "scores": {
+        "semantics": 5,
+        "anatomy": 3.5,
+        "bicycle": 4,
+        "motion": 4,
+        "polish": 5
+      },
+      "verdict": {
+        "en": "The best-looking scene in the test: a 16:9 coastal landscape with parallax hills, drifting clouds, a waving scarf, a helmet, and a pelican that glances around mid-ride. Wheels, crank and legs all animate, but the legs swing through a fixed ±19° arc while the crank completes a full 360°, so the feet float near the pedals instead of staying on them. It is a choreographed ride rather than a simulated one. A pause button is included.",
+        "zh": "本次最好看的场景：16:9 海岸线、视差山丘、飘动云朵、围巾和头盔，鹈鹕骑到一半还会左右看。轮子、曲柄和腿都在动，但腿只做固定的 ±19° 摆动，曲柄却转完整的 360°，所以脚只是「靠近」踏板，并没有锁住。这是一段编排好的骑行，而不是模拟出来的骑行。带暂停按钮。"
+      },
+      "works": {
+        "en": [
+          "Richest scene and strongest art direction; 21 parallel animations.",
+          "Wheels, crank, head, scarf, pouch and parallax all move.",
+          "A real pause button, clearly labelled."
+        ],
+        "zh": [
+          "场景最丰富、美术最强，共 21 组并行动画。",
+          "轮子、曲柄、头部、围巾、喉囊和视差都在动。",
+          "有明确标注的暂停按钮。"
+        ]
+      },
+      "breaks": {
+        "en": [
+          "Feet swing in a fixed arc and do not track the rotating crank.",
+          "No chain between chainring and rear wheel.",
+          "The wing balances in the air; it never grips the handlebar."
+        ],
+        "zh": [
+          "脚只做固定弧线摆动，不跟随旋转的曲柄。",
+          "牙盘和后轮之间没有链条。",
+          "翅膀在空中保持平衡，但没有握住车把。"
+        ]
+      },
+      "motionCheck": { "wheels": true, "crank": true, "feet": false, "scene": true }
+    },
+    {
+      "slug": "doubao-2-1-pro",
+      "bib": "03",
+      "name": "Doubao 2.1 Pro",
+      "nameZh": "豆包 2.1 Pro",
+      "vendor": "ByteDance",
+      "vendorZh": "字节跳动",
+      "role": { "en": "The technician", "zh": "技术派" },
+      "tagline": { "en": "The only pelican that truly pedals.", "zh": "唯一真正会蹬车的鹈鹕。" },
+      "source": "鹈鹕骑自行车/鹈鹕骑自行车-豆包-2.1-Pro.html",
+      "artifact": "doubao-2-1-pro.html",
+      "accent": "#E4572E",
+      "control": "button",
+      "pauseLabel": "暂停",
+      "resumeLabel": "继续",
+      "controls": { "en": "Pause, speed, bell", "zh": "暂停、变速、车铃" },
+      "scores": {
+        "semantics": 5,
+        "anatomy": 4,
+        "bicycle": 5,
+        "motion": 4.5,
+        "polish": 5
+      },
+      "verdict": {
+        "en": "The only entry that actually solves the pedal problem. The pelican's feet are driven by inverse kinematics and stay locked to the crank; the wing holds the handlebar; wheel and crank rotation are derived from distance travelled. It also ships a real control panel: pause, speed slider, bell and spacebar. The art is cheerful rather than beautiful, and the body occasionally hides the hip, but as an animation system this is the most complete run.",
+        "zh": "唯一真正解决「脚踩踏板」的模型。双脚由逆向运动学驱动，始终锁在曲柄上；翅膀握着车把；轮子和曲柄的转速由前进距离推导。它还自带完整控制台：暂停、速度滑杆、车铃和空格键。美术偏卡通而非精致，身体偶尔会遮住髋部，但作为一套动画系统，它是完成度最高的一次。"
+      },
+      "works": {
+        "en": [
+          "Inverse-kinematics legs keep both feet on the pedals through the full cycle.",
+          "Wheel and crank speed are tied to distance, not eyeballed.",
+          "Complete bicycle plus a control panel: pause, speed, bell, spacebar."
+        ],
+        "zh": [
+          "逆向运动学双腿让双脚在完整周期内都踩在踏板上。",
+          "轮子和曲柄速度由前进距离推导，不是凭感觉。",
+          "自行车结构完整，还有控制台：暂停、速度、车铃、空格键。"
+        ]
+      },
+      "breaks": {
+        "en": [
+          "The body sometimes covers the hip, making the legs look shorter than they are.",
+          "Cheerful stock-cartoon art rather than a distinctive scene.",
+          "No explicit contact shadow between saddle and body."
+        ],
+        "zh": [
+          "身体有时挡住髋部，让腿看起来比实际短。",
+          "美术偏通用卡通，场景不够有辨识度。",
+          "坐垫和身体之间缺少明确的接触阴影。"
+        ]
+      },
+      "motionCheck": { "wheels": true, "crank": true, "feet": true, "scene": true }
+    },
+    {
+      "slug": "gpt-6-1-sol",
+      "bib": "04",
+      "name": "GPT-6.1 Sol",
+      "nameZh": "GPT-6.1 Sol",
+      "vendor": "OpenAI",
+      "vendorZh": "OpenAI",
+      "role": { "en": "The editorialist", "zh": "排版师" },
+      "tagline": { "en": "Inverse kinematics under a coral frame.", "zh": "珊瑚色车架下的逆向运动学。" },
+      "source": "鹈鹕骑自行车/pelican-cycling-GPT-6.1-Sol.html",
+      "artifact": "gpt-6-1-sol.html",
+      "accent": "#D96B4B",
+      "control": "button",
+      "pauseLabel": "暂停一下",
+      "resumeLabel": "继续兜风",
+      "controls": { "en": "Pause button", "zh": "暂停按钮" },
+      "scores": {
+        "semantics": 4.5,
+        "anatomy": 3,
+        "bicycle": 4,
+        "motion": 4.5,
+        "polish": 4.5
+      },
+      "verdict": {
+        "en": "The cleanest art direction: cream paper, coral frame, and a poster-like header that reads “Today, tailwind.” Under the hood, the wheels spin and the legs are solved with inverse kinematics against a rotating crank, so the feet really do follow the pedals. The weakness is anatomy: the legs are thin curves with exaggerated knees, the feet are straight line segments, and the chain is missing. A pause button is included.",
+        "zh": "最干净的排版：米白纸感、珊瑚色车架，标题写着「今天，顺风。」。底层逻辑其实是对的：轮子在转，双腿用逆向运动学跟随旋转的曲柄，脚确实跟着踏板走。问题在解剖：腿是细曲线、膝盖弯得夸张，脚只是一条直线，而且没有链条。带暂停按钮。"
+      },
+      "works": {
+        "en": [
+          "Correct inverse-kinematics foot tracking against a rotating crank.",
+          "Wheels, crank, scarf, wing and road all move.",
+          "Strong editorial layout and a working pause button."
+        ],
+        "zh": [
+          "正确的逆向运动学，脚跟随旋转的曲柄。",
+          "轮子、曲柄、围巾、翅膀和路面都在动。",
+          "排版有编辑感，暂停按钮可用。"
+        ]
+      },
+      "breaks": {
+        "en": [
+          "Feet are 29px straight lines, not webbed pelican feet.",
+          "Knees bend past the plausible range, producing a loop-like leg.",
+          "No chain; the drivetrain is simplified."
+        ],
+        "zh": [
+          "脚是 29px 的直线段，不是蹼足。",
+          "膝盖弯曲超出合理范围，腿看起来像绕圈。",
+          "没有链条，传动系统被简化。"
+        ]
+      },
+      "motionCheck": { "wheels": true, "crank": true, "feet": true, "scene": true }
+    },
+    {
+      "slug": "agnes-3-0-flash",
+      "bib": "05",
+      "name": "Agnes 3.0 Flash",
+      "nameZh": "Agnes 3.0 Flash",
+      "vendor": "Agnes AI",
+      "vendorZh": "Agnes AI",
+      "role": { "en": "The abstractionist", "zh": "抽象派" },
+      "tagline": { "en": "The rider floats behind the bike.", "zh": "骑手飘在自行车后面。" },
+      "source": "鹈鹕骑自行车/鹈鹕骑自行车动画-agnes-3.0-flash.html",
+      "artifact": "agnes-3-0-flash.html",
+      "accent": "#8A6B4F",
+      "control": "waapi",
+      "controls": { "en": "None", "zh": "无" },
+      "scores": {
+        "semantics": 0.5,
+        "anatomy": 1,
+        "bicycle": 3.5,
+        "motion": 2,
+        "polish": 2.5
+      },
+      "verdict": {
+        "en": "The classic failure mode, preserved for science: the bicycle and the pelican are two separate drawings. The bike sits on the road, the pelican floats behind it with both feet on the ground, and nothing connects them. Wheels, pedals and background do animate; the rider floats independently. No controls. Every benchmark needs a cautionary tale.",
+        "zh": "经典翻车现场，值得原样保留：自行车和鹈鹕是两张互不相干的画。车停在路上，鹈鹕飘在车后、双脚踩在地上，两者没有任何连接。轮子、踏板和背景确实在动，但骑手只是独立地上下浮动。没有控制条。每个基准测试都需要一个反面教材。"
+      },
+      "works": {
+        "en": [
+          "Wheels, pedals and background motion are implemented.",
+          "Clean, readable shapes and a simple composition."
+        ],
+        "zh": [
+          "轮子、踏板和背景动画都实现了。",
+          "形状干净、构图简单易读。"
+        ]
+      },
+      "breaks": {
+        "en": [
+          "The pelican is not on the bicycle — it floats below and behind it.",
+          "Both feet rest on the ground instead of the pedals.",
+          "No controls; the rider's float is unrelated to the drivetrain."
+        ],
+        "zh": [
+          "鹈鹕不在自行车上，而是飘在车后下方。",
+          "双脚踩在地上，而不是踏板上。",
+          "没有控制条；骑手的浮动和传动系统毫无关系。"
+        ]
+      },
+      "motionCheck": { "wheels": true, "crank": false, "feet": false, "scene": true }
+    },
+    {
+      "slug": "gpt-5-6-sol",
+      "bib": "06",
+      "name": "GPT-5.6 Sol",
+      "nameZh": "GPT-5.6 Sol",
+      "vendor": "OpenAI",
+      "vendorZh": "OpenAI",
+      "role": { "en": "The postcard painter", "zh": "明信片画家" },
+      "tagline": { "en": "Beautiful coast. Runaway wheels.", "zh": "海岸很美，轮子跑了。" },
+      "source": "鹈鹕骑自行车/pelican-bicycle-GPT-5.6-Sol.html",
+      "artifact": "gpt-5-6-sol.html",
+      "accent": "#2B7BB9",
+      "control": "waapi",
+      "controls": { "en": "Click to pause", "zh": "点击暂停" },
+      "scores": {
+        "semantics": 4.5,
+        "anatomy": 3.5,
+        "bicycle": 3,
+        "motion": 1.5,
+        "polish": 5
+      },
+      "verdict": {
+        "en": "A gorgeous coastal postcard — scarf, sun, sea shimmer, thirteen CSS animations — ruined by one transform bug. The wheels are told to rotate, but that animation replaces the translate that positions them, so both wheels slide from their axles toward the SVG origin and snap back once per cycle; mid-ride, the bicycle has no wheels at all. The crank never turns, and the legs rotate a full 360° around the hip while the pedals stay still. The wing does reach the handlebar, the body sits on the saddle, and a click pauses the scene.",
+        "zh": "一张漂亮的海岸明信片：围巾、太阳、海面波光，13 组 CSS 动画。但一个 transform 写法毁掉了运动：轮子被要求旋转，而这段动画覆盖了定位用的 translate，于是两个轮子每个周期都从车轴滑向 SVG 原点再瞬间弹回——骑到一半，自行车会没有轮子。曲柄完全不转，双腿绕髋部转完整 360°，踏板却静止。翅膀确实够到了车把，身体坐在坐垫上，点击画面可以暂停。"
+      },
+      "works": {
+        "en": [
+          "The strongest coastal scene: sun, sea shimmer, drifting clouds, scarf and a complete rider.",
+          "The wing reaches the handlebar and the body sits on the saddle.",
+          "Click-to-pause and keyboard control are wired up with ARIA labels."
+        ],
+        "zh": [
+          "海岸场景最强：太阳、海面波光、流云、围巾，骑手完整。",
+          "翅膀够到了车把，身体坐在坐垫上。",
+          "点击/键盘暂停可用，还写了 ARIA 标签。"
+        ]
+      },
+      "breaks": {
+        "en": [
+          "Wheel rotation overrides the translate, so both wheels leave their axles and slide toward the SVG origin.",
+          "The crank and pedals are static while the legs spin a full 360° around the hip.",
+          "No fork reaches the front wheel, and the drivetrain has no chain."
+        ],
+        "zh": [
+          "轮子的旋转变换覆盖了 translate，两个轮子离开车轴、滑向 SVG 原点。",
+          "曲柄和踏板静止，双腿却绕髋部转完整 360°。",
+          "没有前叉连到前轮，传动系统也没有链条。"
+        ]
+      },
+      "motionCheck": { "wheels": "partial", "crank": false, "feet": false, "scene": true }
+    },
+    {
+      "slug": "gpt-6-0-luna",
+      "bib": "07",
+      "name": "GPT-6.0 Luna",
+      "nameZh": "GPT-6.0 Luna",
+      "vendor": "OpenAI",
+      "vendorZh": "OpenAI",
+      "role": { "en": "The lake poet", "zh": "湖畔诗人" },
+      "tagline": { "en": "Lovely lake. Two frozen legs.", "zh": "湖很美，两条腿冻住了。" },
+      "source": "鹈鹕骑自行车/pelican-bicycle-GPT-6.0-Luna.html",
+      "artifact": "gpt-6-0-luna.html",
+      "accent": "#B8872F",
+      "control": "waapi",
+      "controls": { "en": "None", "zh": "无" },
+      "scores": {
+        "semantics": 4.5,
+        "anatomy": 3,
+        "bicycle": 4,
+        "motion": 2.5,
+        "polish": 4.5
+      },
+      "verdict": {
+        "en": "The softest scene in the test: a helmeted pelican by a lake, sparkles, reeds and a friendly caption. The wheels and pedals turn, the whole rider bobs, and the frame is properly connected. But the legs never move: the stylesheet defines leg-a and leg-b animations, then applies neither class to the SVG, so the feet stay frozen while the crank rotates underneath them. The wing rests on the chest rather than the handlebar, and there is no chain or playback control.",
+        "zh": "最柔和的一张：戴头盔的鹈鹕、湖边、闪光、芦苇，还有一行友好的标语。轮子和踏板在转，整个骑手上下起伏，车架也连接正确。但腿从头到尾没动：样式表定义了 leg-a / leg-b 动画，却没有把这两个 class 加到 SVG 上，于是曲柄在脚下空转，脚一直冻住。翅膀抱在胸前，没有扶车把；没有链条，也没有播放控制。"
+      },
+      "works": {
+        "en": [
+          "Wheels, pedals, clouds and ground all animate; the rider bobs as one group.",
+          "A connected frame: both wheels, fork, saddle, bars and crank are present.",
+          "Warm, coherent art direction and a responsive 16:10 stage."
+        ],
+        "zh": [
+          "轮子、踏板、云和地面都在动，骑手整体起伏。",
+          "车架连接正确：两个轮子、前叉、坐垫、车把和曲柄都在。",
+          "美术温暖统一，16:10 舞台自适应。"
+        ]
+      },
+      "breaks": {
+        "en": [
+          "The leg animations target .leg-a and .leg-b, but no element has those classes; the feet never move.",
+          "The crank rotates under two static feet, so the pedalling illusion collapses.",
+          "No chain, and the wing never reaches the handlebar."
+        ],
+        "zh": [
+          "腿部动画绑定 .leg-a 和 .leg-b，但 SVG 里没有任何元素使用这两个 class，脚完全不动。",
+          "曲柄在两只静止的脚下空转，蹬车幻觉直接破灭。",
+          "没有链条，翅膀也没有碰到车把。"
+        ]
+      },
+      "motionCheck": { "wheels": true, "crank": true, "feet": false, "scene": true }
+    },
+    {
+      "slug": "hy3",
+      "bib": "08",
+      "name": "HY3",
+      "nameZh": "HY3",
+      "vendor": "Not stated",
+      "vendorZh": "未标注",
+      "role": { "en": "The cartoonist", "zh": "漫画家" },
+      "tagline": { "en": "Happy pelican. Orbiting legs.", "zh": "快乐的鹈鹕，绕圈的腿。" },
+      "source": "鹈鹕骑自行车/pelican-bike-hy3.html",
+      "artifact": "hy3.html",
+      "accent": "#5E8C3A",
+      "control": "waapi",
+      "controls": { "en": "None", "zh": "无" },
+      "scores": {
+        "semantics": 4.5,
+        "anatomy": 2.5,
+        "bicycle": 3.5,
+        "motion": 1.5,
+        "polish": 4
+      },
+      "verdict": {
+        "en": "The most cheerful artifact in the test: a titled, sunlit ride with a blinking eye, a chomping beak, a wagging tail, a swaying crest, wind streaks and fifteen animations. The wheels even ship a spin animation — applied to the bare tyre circle while the spokes stay static, so the rotation is invisible. The crank and pedals never move, and the legs rotate a full 360° around a pivot above the hip, throwing both feet off the pedals within a few frames. The wing stops short of the handlebar, though the body does sit on the saddle. No controls.",
+        "zh": "全场最欢乐的一张：带标题的晴天兜风，会眨眼、开合喙、摇尾巴、晃冠羽，还有风线，共 15 组动画。轮子确实写了旋转——但只作用在没有花纹的外胎圆上，辐条静止，所以根本看不出在转。曲柄和踏板全程不动，双腿却绕髋部上方的一个点转完整 360°，几帧之内两只脚就甩离踏板。翅膀没有够到车把，身体确实坐在坐垫上。没有控制条。"
+      },
+      "works": {
+        "en": [
+          "Fifteen animations, including blink, beak chomp, tail flap, crest sway and wind streaks.",
+          "Both wheels, frame, fork, saddle, bars and crank are present.",
+          "The body sits on the saddle, and the scene fills the viewport responsively."
+        ],
+        "zh": [
+          "15 组动画：眨眼、开合喙、摇尾、冠羽摆动、风线。",
+          "两个轮子、车架、前叉、坐垫、车把和曲柄都在。",
+          "身体坐在坐垫上，场景自适应铺满窗口。"
+        ]
+      },
+      "breaks": {
+        "en": [
+          "Legs orbit a pivot above the hip, so both feet leave the pedals almost immediately.",
+          "The spin animation drives only the featureless tyre circle; the spokes never turn, so the wheels look frozen.",
+          "The crank and pedals are static, there is no chain, and the wing stops short of the handlebar."
+        ],
+        "zh": [
+          "双腿绕髋部上方的一点公转，几乎立刻离开踏板。",
+          "旋转动画只作用在无花纹的外胎圆上，辐条从不转，轮子看起来是静止的。",
+          "曲柄和踏板不动，没有链条，翅膀也没有够到车把。"
+        ]
+      },
+      "motionCheck": { "wheels": false, "crank": false, "feet": false, "scene": true }
+    }
+  ]
+}
