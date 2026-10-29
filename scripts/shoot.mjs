@@ -3,6 +3,7 @@ import path from "node:path";
 import { execFileSync } from "node:child_process";
 import { pathToFileURL } from "node:url";
 import { chromium } from "playwright-core";
+import { dateLabel, numberWord, paddedCount } from "../data/counts.mjs";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const SHOTS = path.join(ROOT, "shots");
@@ -15,6 +16,12 @@ const models = data.models;
 const totalOf = (model) => Object.values(model.scores).reduce((sum, value) => sum + value, 0);
 const ranked = [...models].sort((a, b) => totalOf(b) - totalOf(a) || a.bib.localeCompare(b.bib));
 const rankOf = new Map(ranked.map((model, index) => [model.slug, index + 1]));
+const pad = paddedCount(models.length);
+const wordEn = numberWord("en", models.length);
+const WordEn = wordEn[0].toUpperCase() + wordEn.slice(1);
+const modelDate = (model) => dateLabel(model.testedAt || data.testedAt, "en");
+const testedDates = models.map((model) => model.testedAt || data.testedAt).sort();
+const latestDate = dateLabel(testedDates[testedDates.length - 1], "en");
 
 const still = {
   "deepseek-flash": { time: 900 },
@@ -25,6 +32,9 @@ const still = {
   "gpt-5-6-sol": { time: 900, cancel: [".wheel"] },
   "gpt-6-0-luna": { time: 900 },
   hy3: { time: 350 },
+  "glm-5-3-flash": { button: "#btnPause", time: 1200 },
+  "deepseek-v4-1-flash": { button: "#toggle", time: 1200 },
+  "bicycle-rides-pelican-qwen3-8-flash": { time: 1400, trim: true },
 };
 
 function firstExisting(candidates) {
@@ -115,7 +125,7 @@ async function capturePosters(browser) {
     reducedMotion: "no-preference",
   });
 
-  for (const model of models) {
+  for (const model of [...models, data.reverse.run]) {
     const source = path.join(ROOT, model.source);
     if (!fs.existsSync(source)) {
       console.warn(`skip poster, artifact missing: ${model.source}`);
@@ -126,7 +136,7 @@ async function capturePosters(browser) {
       await page.goto(pathToFileURL(source).href, { waitUntil: "load" });
       await page.addStyleTag({
         content:
-          ".title,.control,.hint,.badge,.controls{visibility:hidden!important}*{border-radius:0!important}",
+          ".title,.control,.hint,.badge,.controls,.caption{visibility:hidden!important}*{border-radius:0!important}",
       });
       await page.waitForTimeout(1100);
       await pauseScene(page, still[model.slug] || {});
@@ -139,6 +149,7 @@ async function capturePosters(browser) {
       const webp = path.join(POSTERS, `${model.slug}.webp`);
       runMagick([
         png,
+        ...(still[model.slug]?.trim ? ["-fuzz", "4%", "-trim", "+repage"] : []),
         "-resize",
         "1200x750^",
         "-gravity",
@@ -256,7 +267,7 @@ h1{font-size:${nameSize}px;margin-top:26px;max-width:640px}
 </style></head><body>
 <div class="frame"></div>
 <div class="left">
-  <div class="eyebrow">Pelican Bicycle Benchmark · Run ${model.bib} / 08</div>
+  <div class="eyebrow">Pelican Bicycle Benchmark · Run ${model.bib} / ${pad}</div>
   <h1>${model.name}</h1>
   <p class="tagline">&ldquo;${model.tagline.en}&rdquo;</p>
   <div class="stats">
@@ -264,7 +275,7 @@ h1{font-size:${nameSize}px;margin-top:26px;max-width:640px}
     <div class="rank"><b>P${rank}</b><small>Overall rank</small></div>
   </div>
   <div class="rule"></div>
-  <div class="meta">${model.vendor === "Not stated" ? "" : `${model.vendor} · `}zero-shot · animated SVG · 27 Oct 2026</div>
+  <div class="meta">${model.vendor === "Not stated" ? "" : `${model.vendor} · `}zero-shot · animated SVG · ${modelDate(model)}</div>
 </div>
 <div class="right">
   <div class="label">Still frame · original output</div>
@@ -277,6 +288,9 @@ h1{font-size:${nameSize}px;margin-top:26px;max-width:640px}
 
 function homeCard() {
   const winner = ranked[0];
+  const tied = models.filter((model) => totalOf(model) === totalOf(winner)).length > 1;
+  const winnerLabel = tied ? "Joint first" : "Winner";
+  const ribbonText = tied ? "Shared top score" : "Fastest pelican on the grid";
   return `<!doctype html><html><head><meta charset="utf-8"><style>${baseCss()}
 .left{position:absolute;left:56px;top:52px;bottom:46px;width:660px;display:flex;flex-direction:column}
 h1{font-size:94px;margin-top:26px}
@@ -306,20 +320,20 @@ h1 em{display:block;font-family:'Instrument Serif',serif;font-style:italic;font-
 </style></head><body>
 <div class="frame"></div>
 <div class="left">
-  <div class="eyebrow">The animated LLM benchmark · 08 runs · 27 Oct 2026</div>
-  <h1>Eight AIs.<br>One pelican.<em>One bicycle.</em></h1>
-  <p class="sub">Eight consumer models. One prompt. A 25-point rubric for anatomy, bicycle structure and motion.</p>
+  <div class="eyebrow">The animated LLM benchmark · ${pad} runs · ${latestDate}</div>
+  <h1>${WordEn} AIs.<br>One pelican.<em>One bicycle.</em></h1>
+  <p class="sub">${WordEn} consumer models. One prompt. A 25-point rubric for anatomy, bicycle structure and motion.</p>
   <div class="stats">
-    <div class="tag"><b>08</b><span>runs</span></div>
+    <div class="tag"><b>${pad}</b><span>runs</span></div>
     <div class="tag"><b>25</b><span>points</span></div>
     <div class="tag"><b>01</b><span>prompt</span></div>
     <div class="tag"><b>00</b><span>fixes</span></div>
   </div>
 </div>
 <div class="winner">
-  <div class="label">Winner · ${winner.name}</div>
+  <div class="label">${winnerLabel} · ${winner.name}</div>
   <div class="poster"><img src="${posterData(winner.slug)}" alt=""></div>
-  <div class="ribbon"><b>${totalOf(winner).toFixed(1)} / 25</b>Fastest pelican on the grid</div>
+  <div class="ribbon"><b>${totalOf(winner).toFixed(1)} / 25</b>${ribbonText}</div>
 </div>
 <div class="checker"></div>
 </body></html>`;

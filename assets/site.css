@@ -1889,6 +1889,14 @@ body.page-leaderboard .model-cell strong {
   color: rgba(245, 240, 230, 0.38);
 }
 
+.footer-plain a {
+  color: inherit;
+}
+
+.footer-plain a:hover {
+  color: var(--coral);
+}
+
 /* ============================================================
    Inner pages
    ============================================================ */

@@ -13,6 +13,7 @@ import {
   disambiguation,
 } from "../data/content.mjs";
 import { pages } from "../data/pages.mjs";
+import { dateLabel, latestTestedAt, numberWord, paddedCount, testedRange } from "../data/counts.mjs";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const OUT = path.join(ROOT, "dist");
@@ -26,6 +27,7 @@ const DATE = siteMeta.testedAt;
 const data = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "models.json"), "utf8"));
 const models = data.models;
 const prompt = data.prompt;
+const reverse = data.reverse;
 
 const totalOf = (model) => Object.values(model.scores).reduce((sum, value) => sum + value, 0);
 const fmt = (value) => Number(value).toFixed(1);
@@ -33,6 +35,17 @@ const fmt = (value) => Number(value).toFixed(1);
 const ranked = [...models].sort((a, b) => totalOf(b) - totalOf(a) || a.bib.localeCompare(b.bib));
 const rankOf = new Map(ranked.map((model, index) => [model.slug, index + 1]));
 const bySlug = new Map(models.map((model) => [model.slug, model]));
+const leaders = ranked.filter((model) => totalOf(model) === totalOf(ranked[0]));
+const padRuns = paddedCount(models.length);
+const modelDate = (model) => model.testedAt || DATE;
+const shortName = (model, lang) =>
+  (lang === "zh" ? model.nameZh || model.name : model.name).split(" ")[0];
+const leadLabel = (lang) => {
+  const score = fmt(totalOf(ranked[0]));
+  const names = leaders.map((model) => shortName(model, lang));
+  if (lang === "en") return names.length > 1 ? `${names.join(" and ")} tie at ${score}` : `${names[0]} leads at ${score}`;
+  return names.length > 1 ? `${names.join("与")} 并列 ${score}` : `${names[0]} ${score} 分领跑`;
+};
 
 const esc = (value) =>
   String(value)
@@ -153,23 +166,23 @@ function ticker(lang) {
     lang === "en"
       ? [
           "Animated LLM benchmark",
-          "08 runs",
+          `${padRuns} runs`,
           "25 points",
           "One prompt",
           "Zero fixes",
-          "Doubao leads at 23.5",
-          "27 Oct 2026",
+          leadLabel("en"),
+          dateLabel(latestTestedAt, "en"),
           "Consumer clients",
           "Same-second comparison",
         ]
       : [
           "动画版 LLM 基准",
-          "08 次运行",
+          `${padRuns} 次运行`,
           "25 分制",
           "同一道题",
           "零修图",
-          "豆包 23.5 分领跑",
-          "2026-10-27",
+          leadLabel("zh"),
+          dateLabel(latestTestedAt, "zh"),
           "客户端",
           "同一秒对比",
         ];
@@ -249,6 +262,7 @@ function footer(lang) {
     <div class="footer-bottom">
       <span>${esc(t.footer.rights)}</span>
       <span>${lang === "en" ? "Simon Willison’s pelican test, extended to motion." : "把 Simon Willison 的鹈鹕测试，推进到运动。"}</span>
+      <span class="footer-plain"><a href="/prompt.txt">prompt.txt</a> · <a href="/llms.txt">llms.txt</a></span>
     </div>
   </div>
 </footer>`;
@@ -330,7 +344,11 @@ function homePage(lang) {
   const methodUrl = pageUrl(lang, "/methodology/");
   const winnerUrl = pageUrl(lang, modelRoute(winner.slug));
   const promptText = lang === "en" ? prompt.en : prompt.zh;
-  const winnerLabel = lang === "en" ? "Winner" : "冠军";
+  const winnerLabel =
+    leaders.length > 1
+      ? lang === "en" ? "Joint first" : "并列第一"
+      : lang === "en" ? "Winner" : "冠军";
+  const isLeader = (model) => totalOf(model) === totalOf(ranked[0]);
 
   const faqLd = {
     "@context": "https://schema.org",
@@ -382,7 +400,7 @@ function homePage(lang) {
             <span class="poster-stamp"><span>${winnerLabel}</span><strong>${fmt(totalOf(winner))}</strong><small>/ 25</small></span>
             <span class="poster-caption"><strong>${esc(winner.name)}</strong><span>${esc(winner.tagline[lang])}</span></span>
           </a>
-          <figcaption>${esc(p.heroNote)} · ${esc(winner.vendor)}</figcaption>
+          <figcaption>${esc(p.heroNote)} · ${esc(vendorOf(winner, lang))}</figcaption>
         </figure>
       </div>
     </section>
@@ -419,11 +437,11 @@ function homePage(lang) {
         <div class="race-grid">
           ${ranked
             .map(
-              (model, index) => `<a class="race-card${index === 0 ? " race-card--winner" : ""} reveal" href="${pageUrl(lang, modelRoute(model.slug))}" style="--accent:${esc(model.accent)}">
+              (model, index) => `<a class="race-card${isLeader(model) ? " race-card--winner" : ""} reveal" href="${pageUrl(lang, modelRoute(model.slug))}" style="--accent:${esc(model.accent)}">
             <div class="race-card-media">
               <img src="${posterFor(model)}" width="1200" height="750" alt="${esc(posterAlt(model, lang))}" loading="${index === 0 ? "eager" : "lazy"}">
               <span class="race-bib" aria-hidden="true">${esc(model.bib)}</span>
-              ${index === 0 ? `<span class="ribbon">${winnerLabel}</span>` : ""}
+              ${isLeader(model) ? `<span class="ribbon">${winnerLabel}</span>` : ""}
               <span class="race-score">${fmt(totalOf(model))}<small>/25</small></span>
             </div>
             <div class="race-card-body">
@@ -609,8 +627,8 @@ function homePage(lang) {
     image: ogFor("home"),
     imageAlt:
       lang === "en"
-        ? "Pelican Bicycle Benchmark — eight AI models riding a bicycle, animated"
-        : "鹈鹕骑自行车基准测试 — 八个 AI 模型的动画横评",
+        ? `Pelican Bicycle Benchmark — ${models.length} AI models riding a bicycle, animated`
+        : `鹈鹕骑自行车基准测试 — ${numberWord("zh", models.length)} 个 AI 模型的动画横评`,
     jsonld: [websiteLd, faqLd, itemListLd],
     current: "home",
     pageKey: "home",
@@ -643,7 +661,7 @@ function leaderboardPage(lang) {
         <h1>${esc(p.title)}</h1>
         <p class="lede">${esc(p.intro)}</p>
         <div class="page-hero-meta">
-          <span>${esc(L.tested)} · ${esc(DATE)}</span>
+          <span>${esc(L.tested)} · ${esc(testedRange(lang))}</span>
           <span>${esc(pages.methodology[lang].accessValue)}</span>
           <span>${ranked.length} ${lang === "en" ? "runs" : "次运行"}</span>
         </div>
@@ -868,7 +886,7 @@ function modelPage(lang, model) {
     author: { "@type": "Organization", name: lang === "en" ? siteMeta.name : siteMeta.nameZh },
     reviewBody: model.verdict[lang],
     url: abs(pageUrl(lang, modelRoute(model.slug))),
-    datePublished: DATE,
+    datePublished: modelDate(model),
     inLanguage: HTML_LANG[lang],
   };
   const breadcrumbLd = {
@@ -975,8 +993,9 @@ function modelPage(lang, model) {
           <h2 class="panel-title">${esc(p.spec)}</h2>
           <dl class="spec-list">
             <div><dt>${esc(p.vendorLabel)}</dt><dd>${esc(vendorOf(model, lang))}</dd></div>
+            ${model.client ? `<div><dt>${esc(p.clientLabel)}</dt><dd>${esc(lang === "zh" ? model.clientZh || model.client : model.client)}</dd></div>` : ""}
             <div><dt>${esc(p.accessLabel)}</dt><dd>${esc(p.accessValue)}</dd></div>
-            <div><dt>${esc(p.testedLabel)}</dt><dd>${esc(DATE)}</dd></div>
+            <div><dt>${esc(p.testedLabel)}</dt><dd>${esc(modelDate(model))}</dd></div>
             <div><dt>${esc(p.controlsLabel)}</dt><dd>${esc(controlsText)}</dd></div>
             <div><dt>${esc(p.fileLabel)}</dt><dd>${esc(model.artifact)} · ${esc(size)}</dd></div>
             <div><dt>${esc(p.rankLabel)}</dt><dd>${rank} / ${ranked.length}</dd></div>
@@ -1023,6 +1042,84 @@ function modelPage(lang, model) {
     jsonld: [reviewLd, breadcrumbLd],
     content,
   });
+}
+
+function reverseSection(lang) {
+  const p = pages.prompt[lang];
+  const m = pages.model[lang];
+  const L = ui[lang].labels;
+  const run = reverse.run;
+  const artifactUrl = `/artifacts/${run.artifact}`;
+  const sourceFile = path.join(ROOT, run.source);
+  const size = fs.existsSync(sourceFile) ? `${(fs.statSync(sourceFile).size / 1024).toFixed(1)} KB` : "—";
+  const alt =
+    lang === "en"
+      ? `${run.name} — still frame from the reversed-prompt run, a bicycle riding a pelican`
+      : `${run.name} 的反向提示词运行静帧：自行车骑鹈鹕`;
+
+  return `    <section class="section" id="control-flip">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div>
+            <p class="section-label">${esc(p.reverseLabel)}</p>
+            <h2>${esc(p.reverseTitle)}</h2>
+          </div>
+          <p class="section-aside">${esc(p.reverseIntro)}</p>
+        </div>
+
+        <div class="model-layout">
+          <div class="run-panel reveal">
+            <div class="run-frame" id="run-${esc(run.slug)}" data-run data-src="${esc(artifactUrl)}" data-title="${esc(run.name)} — ${esc(p.reverseRunLabel)}">
+              <img class="poster" src="${posterFor(run)}" width="1200" height="750" alt="${esc(alt)}" loading="lazy">
+              <button class="play-btn" type="button" data-play>
+                <span aria-hidden="true">▶</span>
+                <span>${esc(L.play)}</span>
+              </button>
+              <div class="run-loading" data-loading hidden>${esc(L.loading)}</div>
+            </div>
+            <div class="run-actions">
+              <a class="btn btn-sm" href="${artifactUrl}" target="_blank" rel="noopener">${esc(L.openRaw)}</a>
+              <a class="btn btn-sm" href="${artifactUrl}" download>${esc(L.download)}</a>
+            </div>
+            <p class="run-note">${esc(run.namedFrom[lang])}</p>
+          </div>
+
+          <div class="score-panel reveal" style="--accent:${esc(run.accent)}">
+            <section class="panel-block">
+              <h2 class="panel-title">${esc(p.reversePromptLabel)}</h2>
+              <p class="prompt-text" id="prompt-reverse">${esc(reverse.prompt[lang])}</p>
+              <button class="btn copy-btn" type="button" data-copy-target="#prompt-reverse" data-copied="${esc(L.copied)}">${esc(L.copy)}</button>
+            </section>
+
+            <section class="panel-block">
+              <h2 class="panel-title">${esc(p.reverseWorks)}</h2>
+              <ul class="works-list">${run.works[lang].map((item) => `<li>${esc(item)}</li>`).join("")}</ul>
+            </section>
+
+            <section class="panel-block">
+              <h2 class="panel-title">${esc(p.reverseBreaks)}</h2>
+              <ul class="breaks-list">${run.breaks[lang].map((item) => `<li>${esc(item)}</li>`).join("")}</ul>
+            </section>
+
+            <section class="panel-block">
+              <h2 class="panel-title">${esc(m.verdict)}</h2>
+              <p class="verdict-text">${esc(run.verdict[lang])}</p>
+            </section>
+
+            <section class="panel-block">
+              <h2 class="panel-title">${esc(m.spec)}</h2>
+              <dl class="spec-list">
+                <div><dt>${esc(m.vendorLabel)}</dt><dd>${esc(lang === "zh" ? run.vendorZh : run.vendor)}</dd></div>
+                <div><dt>${esc(m.testedLabel)}</dt><dd>${esc(dateLabel(reverse.testedAt, lang))}</dd></div>
+                <div><dt>${esc(m.controlsLabel)}</dt><dd>${esc(run.controls[lang])}</dd></div>
+                <div><dt>${esc(m.fileLabel)}</dt><dd>${esc(run.artifact)} · ${esc(size)}</dd></div>
+              </dl>
+              <p class="editorial-note">${esc(p.reverseNotRanked)}</p>
+            </section>
+          </div>
+        </div>
+      </div>
+    </section>`;
 }
 
 function promptPage(lang) {
@@ -1075,6 +1172,8 @@ function promptPage(lang) {
         </div>
       </article>
     </div>
+
+    ${reverseSection(lang)}
 
     <section class="section" id="checklist">
       <div class="wrap">
@@ -1156,7 +1255,7 @@ function methodologyPage(lang) {
     headline: `${p.title} — ${lang === "en" ? siteMeta.name : siteMeta.nameZh}`,
     description: p.metaDescription,
     datePublished: DATE,
-    dateModified: DATE,
+    dateModified: latestTestedAt,
     inLanguage: HTML_LANG[lang],
     author: { "@type": "Organization", name: lang === "en" ? siteMeta.name : siteMeta.nameZh },
     mainEntityOfPage: abs(pageUrl(lang, "/methodology/")),
@@ -1258,7 +1357,7 @@ function sitemap(routes) {
       const loc = abs(pageUrl(lang, route));
       entries.push(`  <url>
     <loc>${esc(loc)}</loc>
-    <lastmod>${DATE}</lastmod>
+    <lastmod>${latestTestedAt}</lastmod>
     <xhtml:link rel="alternate" hreflang="en" href="${esc(abs(pageUrl("en", route)))}"/>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="${esc(abs(pageUrl("zh", route)))}"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="${esc(abs(pageUrl("en", route)))}"/>
@@ -1269,6 +1368,63 @@ function sitemap(routes) {
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
 ${entries.join("\n")}
 </urlset>
+`;
+}
+
+function llmsTxt() {
+  const leaderTotal = totalOf(ranked[0]);
+  const resultLines = ranked.map((model, index) => {
+    const total = fmt(totalOf(model));
+    const tie = totalOf(model) === leaderTotal && leaders.length > 1 ? " (joint first)" : "";
+    const rank = index + 1;
+    return `${String(rank).padStart(2, " ")}. ${model.name} — ${total}/25${tie} — ${model.tagline.en} — ${SITE}${modelRoute(model.slug)}`;
+  });
+  const pageLines = (lang) =>
+    [
+      [lang === "en" ? "Home" : "首页", "/", lang === "en" ? "Overview, the animated scorecard and the full field." : "总览、动画记分卡和完整参赛名单。"],
+      [lang === "en" ? "Leaderboard" : "排行榜", "/leaderboard/", lang === "en" ? "Ranked table with per-criterion scores out of 25." : "按四项标准给出 25 分制明细的排行榜。"],
+      [lang === "en" ? "Compare" : "并排对比", "/compare/", lang === "en" ? `Synchronised side-by-side player, 2–${models.length} lanes, deep-linkable with ?runs=slug,slug.` : `同步并排播放器，2–${models.length} 条车道，可用 ?runs=slug,slug 深链。`],
+      [lang === "en" ? "Prompt" : "提示词", "/prompt/", lang === "en" ? "The exact prompt, a 10-point checklist and the reversed-prompt control run." : "完整提示词、10 条自查清单，以及主宾对调的反向对照运行。"],
+      [lang === "en" ? "Methodology" : "方法", "/methodology/", lang === "en" ? "Scoring rubric, evidence method and the limits of this benchmark." : "评分标准、取证方法与本基准的局限。"],
+    ]
+      .map(([name, route, desc]) => `- [${name}](${abs(pageUrl(lang, route))}): ${desc}`)
+      .join("\n");
+
+  return `# ${siteMeta.name}
+
+> One identical prompt sent to ${models.length} consumer LLMs: an animated SVG of a pelican riding a bicycle. Every output is served unmodified and scored out of 25 on pelican anatomy, bicycle structure, motion and scene.
+
+Tested ${testedRange("en")}. Scores are editorial judgements against the published rubric, backed by frame-diff evidence from headless Chrome.
+The test descends from Simon Willison's pelican-on-a-bicycle benchmark (25 Oct 2024).
+
+## Results
+
+${resultLines.join("\n")}
+
+## Pages
+
+${pageLines("en")}
+
+## 中文版本
+
+${pageLines("zh")}
+
+## Prompts
+
+Original (Chinese, sent verbatim):
+${prompt.zh}
+
+English translation:
+${prompt.en}
+
+Reversed control run (Chinese, sent verbatim) — subject and object swapped, ${reverse.run.name}:
+${reverse.prompt.zh}
+
+## Files
+
+- Prompt permalink: ${SITE}/prompt.txt
+- Unmodified model artifacts: ${SITE}/artifacts/<slug>.html (slug per model, e.g. ${SITE}/artifacts/${models[0].artifact})
+- Sitemap: ${SITE}/sitemap.xml
 `;
 }
 
@@ -1292,6 +1448,15 @@ function build() {
     const dest = path.join(OUT, "artifacts", model.artifact);
     ensure(dest);
     fs.copyFileSync(source, dest);
+  }
+
+  const reverseSource = path.join(ROOT, reverse.run.source);
+  if (!fs.existsSync(reverseSource)) {
+    console.warn(`artifact missing: ${reverse.run.source}`);
+  } else {
+    const dest = path.join(OUT, "artifacts", reverse.run.artifact);
+    ensure(dest);
+    fs.copyFileSync(reverseSource, dest);
   }
 
   copyDir(path.join(ROOT, "assets", "fonts"), path.join(OUT, "assets", "fonts"));
@@ -1324,7 +1489,7 @@ function build() {
   );
   write(
     path.join(OUT, "prompt.txt"),
-    `PELICAN BICYCLE BENCHMARK — PROMPT (v1 · ${DATE})
+    `PELICAN BICYCLE BENCHMARK — PROMPT (v1.1 · ${latestTestedAt})
 ${SITE}/prompt/
 
 ORIGINAL (Chinese, sent verbatim):
@@ -1338,15 +1503,14 @@ Prompt lineage: Simon Willison's pelican-on-a-bicycle test (25 Oct 2024).
 `
   );
 
+  write(path.join(OUT, "llms.txt"), llmsTxt());
+
   const pagesBuilt = routes.length * LANGS.length;
   console.log(`Built ${pagesBuilt} pages + 404 → ${path.relative(ROOT, OUT)}`);
   console.log(`Runs: ${models.length} · ranked: ${ranked.map((model) => `${model.name} ${fmt(totalOf(model))}`).join(" · ")}`);
   const missingPosters = models.filter((model) => !fs.existsSync(path.join(ROOT, "assets", "posters", `${model.slug}.webp`)));
   if (missingPosters.length) {
     console.warn(`posters missing (${missingPosters.length}): run \`npm run posters\``);
-  }
-  if (SITE.includes("example.com")) {
-    console.warn("siteMeta.url still points at example.com — set SITE_URL or edit data/content.mjs before deploy.");
   }
 }
 

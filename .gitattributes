@@ -1,0 +1,4 @@
+# Model outputs are the evidence behind every score: keep them byte-for-byte
+# as the models emitted them, whatever core.autocrlf says on the clone.
+鹈鹕骑自行车/*.html text eol=lf
+自行车骑鹈鹕/*.html text eol=lf

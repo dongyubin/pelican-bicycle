@@ -4,6 +4,59 @@
     "zh": "创建一个 HTML，内容是 SVG 绘制一个鹈鹕骑自行车的 2D 动画，你不需要任何测试，不要有任何限制",
     "en": "Create an HTML page containing a 2D SVG animation of a pelican riding a bicycle. You don't need any tests, and don't add any restrictions."
   },
+  "reverse": {
+    "testedAt": "2026-10-28",
+    "prompt": {
+      "zh": "创建一个 HTML，内容是 SVG 绘制一个自行车骑鹈鹕的 2D 动画，你不需要任何测试，不要有任何限制",
+      "en": "Create an HTML page containing a 2D SVG animation of a bicycle riding a pelican. You don't need any tests, and don't add any restrictions."
+    },
+    "run": {
+      "slug": "bicycle-rides-pelican-qwen3-8-flash",
+      "name": "Qwen 3.8 Flash",
+      "nameZh": "Qwen 3.8 Flash",
+      "vendor": "Alibaba",
+      "vendorZh": "阿里巴巴",
+      "namedFrom": {
+        "en": "Model name taken from the output filename; the file itself declares none.",
+        "zh": "模型名取自输出文件名，文件本身没有声明型号。"
+      },
+      "source": "自行车骑鹈鹕/bicycle-rides-pelican-qwen3.8-Flash.html",
+      "artifact": "bicycle-rides-pelican-qwen3-8-flash.html",
+      "accent": "#f0a340",
+      "controls": {
+        "en": "None",
+        "zh": "无"
+      },
+      "works": {
+        "en": [
+          "The role swap survives: the SVG's own aria-label reads 一辆自行车骑在一只奔跑的鹈鹕背上 — a bicycle riding a pelican.",
+          "Both wheels actually turn. Cropping each wheel and diffing two frames 1.8 seconds apart changes 42% of the rear-wheel pixels and 53% of the front-wheel pixels.",
+          "No JavaScript at all: 48 SMIL animate elements drive the wheels, the throat pouch, the bobbing body and the parallax clouds."
+        ],
+        "zh": [
+          "主宾对调被保留下来：SVG 自带的 aria-label 写着「一辆自行车骑在一只奔跑的鹈鹕背上」。",
+          "两个轮子真的在转。分别裁出前后轮、对 1.8 秒后的两帧做像素差，后轮有 42% 像素变化、前轮 53%。",
+          "完全没有 JavaScript：48 个 SMIL animate 元素驱动轮子、喉囊、身体起伏和视差云层。"
+        ]
+      },
+      "breaks": {
+        "en": [
+          "The pelican has no legs. Below the body there is only a tail feather and a drop shadow, so the 'running' bird reads as floating.",
+          "Nothing is steering: the bicycle sits on the back like a saddlebag, with no rider, no wing and no contact with the ground.",
+          "No controls, so no pause — SMIL runs at whatever rate the browser gives it."
+        ],
+        "zh": [
+          "鹈鹕没有腿。身体下方只有尾羽和一片投影，所以「奔跑」看起来像漂浮。",
+          "没有谁在骑：自行车像驮包一样搁在背上，没有骑手、没有翅膀，也没有接触地面。",
+          "没有任何控制条，也就无法暂停——SMIL 按浏览器给的速度一直跑。"
+        ]
+      },
+      "verdict": {
+        "en": "The one run that understood the joke. Reversing subject and object is a semantic test as much as a drawing test, and this model rewrote the aria-label, kept the bicycle complete and gave it spinning wheels. The anatomy is where it stops paying: a legless bird carrying a riderless bike.",
+        "zh": "唯一真正听懂了这个玩笑的运行。主宾对调既是作画测试，也是语义测试，而这个模型改写了 aria-label、保留了完整的自行车、还让轮子转了起来。代价在解剖上：一只没有腿的鸟，驮着一辆没有骑手的车。"
+      }
+    }
+  },
   "models": [
     {
       "slug": "deepseek-flash",
@@ -416,6 +469,112 @@
         ]
       },
       "motionCheck": { "wheels": false, "crank": false, "feet": false, "scene": true }
+    },
+    {
+      "slug": "glm-5-3-flash",
+      "bib": "09",
+      "testedAt": "2026-10-28",
+      "name": "GLM 5.3 Flash",
+      "nameZh": "GLM 5.3 Flash",
+      "vendor": "Zhipu AI",
+      "vendorZh": "智谱",
+      "role": { "en": "The drivetrain", "zh": "传动系统" },
+      "tagline": { "en": "Everything that should turn, turns — including the feet.", "zh": "该转的都在转，包括脚。" },
+      "source": "鹈鹕骑自行车/pelican-bicycle-GLM-5.3-Flash.html",
+      "artifact": "glm-5-3-flash.html",
+      "accent": "#6E5AA6",
+      "control": "button",
+      "controls": { "en": "Pause, speed slider with px/s readout", "zh": "暂停、带 px/s 读数的速度滑杆" },
+      "scores": {
+        "semantics": 5,
+        "anatomy": 4.5,
+        "bicycle": 5,
+        "motion": 5,
+        "polish": 4
+      },
+      "verdict": {
+        "en": "The most correct motion chain on the site. Measured over 800 ms: both wheels rotate 115° clockwise in place while the road slides 190 px left, so the direction of travel is right; the cranks turn 52° and each pedal counter-rotates 52° to stay level; the near and far feet translate exactly with their pedals (±28 px horizontally, ∓15 px vertically). Clouds, hills and three background birds move at different rates, which makes the parallax read as depth rather than decoration. The pause button takes the scene to zero running animations and zero moving elements. It loses points only on art direction: a conventional flat scene, a wing that ends in a stub at the bar, and an SVG that letterboxes inside a card on wide viewports.",
+        "zh": "全站运动链最标准的一次。800 毫秒实测：前后轮原地顺时针转 115°，同时路面向左滑 190 像素，行驶方向对得上；曲柄转 52°，两只脚踏反向转 52° 以保持水平；远近两只脚与各自踏板同步位移（横向 ±28 像素、纵向 ∓15 像素）。云、远山和三只背景鸟各按不同速度移动，视差读起来是纵深而不是装饰。点暂停后运行中的动画数为 0、继续位移的元素数为 0。扣分只在美术：扁平场景比较常规，翅膀到车把处收成一个短桩，而且 SVG 在宽屏上是卡片内留白的固定画幅。"
+      },
+      "works": {
+        "en": [
+          "Wheel rotation, crank rotation and pedal self-levelling are all driven from one clock; feet stay welded to the pedals.",
+          "Correct direction of travel: wheels clockwise against a leftward road.",
+          "Working pause plus a speed slider with a px/s readout, and a three-layer parallax scene."
+        ],
+        "zh": [
+          "轮转、曲柄转、脚踏自平衡由同一个时钟驱动，双脚始终焊在踏板上。",
+          "行驶方向正确：轮子顺时针，路面向左。",
+          "暂停可用，另有带 px/s 读数的速度滑杆，场景三层视差。"
+        ]
+      },
+      "breaks": {
+        "en": [
+          "The wing reaches the bar but ends in a stub, so the grip reads as approximate.",
+          "Art direction is safe stock-flat: one pale bird, one teal bike, no scene identity.",
+          "The animation sits in a fixed 800×640 card that letterboxes on wide viewports."
+        ],
+        "zh": [
+          "翅膀够到了车把但收成一个短桩，握把关系只是近似。",
+          "美术走安全路线的扁平风：一只浅色鸟、一辆青色车，场景没有辨识度。",
+          "动画固定在 800×640 卡片里，宽屏下四周留白明显。"
+        ]
+      },
+      "motionCheck": { "wheels": true, "crank": true, "feet": true, "scene": true }
+    },
+    {
+      "slug": "deepseek-v4-1-flash",
+      "bib": "10",
+      "testedAt": "2026-10-28",
+      "name": "DeepSeek V4.1 Flash",
+      "nameZh": "DeepSeek V4.1 Flash",
+      "vendor": "DeepSeek",
+      "vendorZh": "深度求索",
+      "client": "Xiaohuanxiong (小浣熊)",
+      "clientZh": "小浣熊 (Xiaohuanxiong)",
+      "role": { "en": "The art director", "zh": "美术指导" },
+      "tagline": { "en": "A sunset poster of a bicycle riding alone.", "zh": "一张黄昏海报，画着一辆没人骑的自行车。" },
+      "source": "鹈鹕骑自行车/pelican-bicycle-xiaohuanxiong.html",
+      "artifact": "deepseek-v4-1-flash.html",
+      "accent": "#B0456A",
+      "control": "button",
+      "controls": { "en": "Pause, 0.5×–3× speed, reverse, odometer", "zh": "暂停、0.5×–3× 变速、逆向、里程表" },
+      "scores": {
+        "semantics": 2.5,
+        "anatomy": 0.5,
+        "bicycle": 5,
+        "motion": 3,
+        "polish": 4
+      },
+      "verdict": {
+        "en": "The best-looking artifact here and the one that fails the actual sentence. The bicycle is the most complete in the test — spoked wheels, chainring, both cranks, self-levelling pedals, chain, rear rack, front basket with a fish — and the machine runs: wheels turn 123° per 800 ms, the chainring and cranks turn 52°, the pedals counter-rotate to stay flat, two cloud layers and a sun path drift past. But the pelican is not on it. At 1440×900 the rider group's bounding box starts at y = −102, so its head is cropped by its own canvas for the entire loop, and its feet cycle between y 301 and 386 while the real pedals sit between y 461 and 517: phantom pedalling roughly 130 px above the bicycle. The bird soars alongside a riderless bike. The control set is the richest of the ten — pause, four speeds, a reverse toggle, an odometer that counts whole kilometres, and a reduced-motion path that drops the speed to 0.5×.",
+        "zh": "这里是最好看的一次，也是最不符合题目原句的一次。自行车是全场最完整的：带辐条的两轮、牙盘、双曲柄、自平衡脚踏、链条、后货架、装了鱼的前车筐；机器也在动——轮子 800 毫秒转 123°，牙盘和曲柄转 52°，脚踏反向保持水平，两层云和一条日轨缓缓掠过。但鹈鹕没有骑在车上。1440×900 下骑手的包围盒从 y = −102 开始，整个循环里头都被自己的画布裁掉；两只脚在 y 301–386 之间空踩，而真正的踏板在 y 461–517，等于在自行车上方约 130 像素处幻影蹬车。鸟在车旁飞，车上没有人。控制是十次运行里最丰富的：暂停、四档速度、逆向开关、按整公里累加的里程表，还有一条把速度降到 0.5× 的 prefers-reduced-motion 分支。"
+      },
+      "works": {
+        "en": [
+          "Best art direction in the set: dusk palette, layered dunes, editorial typography, odometer and control bar.",
+          "Most complete bicycle: spoked wheels, chainring, cranks, self-levelling pedals, chain, rack and basket.",
+          "A real control panel — pause, 0.5× to 3×, reverse — and every drivetrain part actually animates from one clock."
+        ],
+        "zh": [
+          "全场最佳美术：黄昏配色、分层沙丘、杂志式排版、里程表与控制条。",
+          "自行车结构最完整：辐条轮、牙盘、曲柄、自平衡脚踏、链条、货架、车筐。",
+          "控制台是真能用的——暂停、0.5× 到 3×、逆向——传动零件全部由同一个时钟驱动。"
+        ]
+      },
+      "breaks": {
+        "en": [
+          "The pelican never sits on the saddle: it flies above the bike for the whole loop.",
+          "Feet pedal empty air 120–160 px above the pedals, so the motion chain is disconnected.",
+          "The rider's head is outside the SVG viewBox at common window sizes, and the odometer counts kilometres for a bike nobody is sitting on."
+        ],
+        "zh": [
+          "鹈鹕全程没有坐上坐垫，而是在车上方飞。",
+          "双脚在踏板上方 120–160 像素处空踩，运动链断开。",
+          "常见窗口尺寸下骑手的头在 viewBox 之外，而里程表计的是没人坐的车跑出的公里数。"
+        ]
+      },
+      "motionCheck": { "wheels": true, "crank": true, "feet": false, "scene": true }
     }
   ]
 }

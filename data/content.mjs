@@ -1,4 +1,4 @@
-const SITE_URL = (process.env.SITE_URL || "https://pelican-bicycle.example.com").replace(/\/+$/, "");
+const SITE_URL = (process.env.SITE_URL || "https://pelican-bicycle.wwkejishe.top").replace(/\/+$/, "");
 
 export const siteMeta = {
   url: SITE_URL,
@@ -255,12 +255,14 @@ export const timeline = {
     { date: "Jun 2025", text: "“The last six months in LLMs, illustrated by pelicans on bicycles” turns it into a public comparison." },
     { date: "2026", text: "“Pelicanmaxxing” studies generate 1,000+ SVGs. Static images are still the default." },
     { date: "27 Oct 2026", text: "This site extends the test to animated, interactive HTML: eight models, one prompt." },
+    { date: "28 Oct 2026", text: "Two more runs join the field, and the top of the board becomes a tie." },
   ],
   zh: [
     { date: "2024-10-25", text: "Simon Willison 让模型生成一张「鹈鹕骑自行车的 SVG」。这个玩笑从此变成了基准测试。" },
     { date: "2025-06", text: "《The last six months in LLMs, illustrated by pelicans on bicycles》把它变成公开横评。" },
     { date: "2026", text: "「Pelicanmaxxing」研究生成了 1000+ 张 SVG。静态图片仍是主流。" },
     { date: "2026-10-27", text: "本站把测试推进到可交互动画：八个模型，同一道题。" },
+    { date: "2026-10-28", text: "两次新运行加入，榜首变成并列。" },
   ],
 };
 
@@ -318,7 +320,7 @@ export const faq = {
     },
     {
       q: "Which model won this animated test?",
-      a: "Among eight runs, Doubao 2.1 Pro scored highest, 23.5 out of 25. It is the only run with inverse-kinematics legs that keep both feet on the pedals, plus a complete bicycle and a working pause/speed/bell panel. Kimi K3.1 Pro is the best-looking scene. GPT-6.1 Sol is the strongest OpenAI entry at 20.5; the two later GPT variants scored 18.5 and 17.5. DeepSeek Flash is the best still image, but its wheels and crank never move.",
+      a: "Two runs tie at the top with 23.5 out of 25. Doubao 2.1 Pro is the only run whose legs solve inverse kinematics, so both feet stay on the pedals through the whole crank cycle, and it ships a working pause/speed/bell panel. GLM 5.3 Flash has the cleanest motion chain we measured: wheels, cranks, self-levelling pedals and feet welded to them, plus a pause button and a speed slider. Kimi K3.1 Pro (21.5) is the most elaborate scene. GPT-6.1 Sol is the strongest OpenAI entry at 20.5; the two later GPT variants scored 18.5 and 17.5. DeepSeek Flash draws the best still image, but its wheels and crank never move. DeepSeek V4.1 Flash has the best art direction of the ten and the worst contact story: its pelican soars beside a bicycle it never sits on (15.0).",
     },
     {
       q: "Why do AI models struggle with bicycles?",
@@ -348,7 +350,7 @@ export const faq = {
     },
     {
       q: "这次动画测试谁赢了？",
-      a: "八次运行里，豆包 2.1 Pro 得分最高，23.5 / 25。它是唯一用逆向运动学让双脚始终踩在踏板上的模型，自行车结构完整，还带暂停、变速和车铃控制。Kimi K3.1 Pro 的场景最好看。GPT-6.1 Sol 是 OpenAI 阵营最高分，20.5；后来补测的两款 GPT 分别是 18.5 和 17.5。DeepSeek Flash 的静帧最精致，但轮子和曲柄完全不转。",
+      a: "两次运行以 23.5 / 25 并列第一。豆包 2.1 Pro 是唯一用逆向运动学驱动腿部的运行，双脚在整个曲柄周期里都踩在踏板上，还带可用的暂停、变速和车铃控制。GLM 5.3 Flash 是我们实测下来运动链最标准的一次：轮子、曲柄、自平衡脚踏全在转，脚焊在踏板上，另有暂停键和速度滑杆。Kimi K3.1 Pro（21.5）的场景最铺张。GPT-6.1 Sol 是 OpenAI 阵营最高分，20.5；后来补测的两款 GPT 分别是 18.5 和 17.5。DeepSeek Flash 的静帧最好看，但轮子和曲柄完全不转。DeepSeek V4.1 Flash 是十次运行里美术最强的一次，也是接触关系最差的一次：鹈鹕在一辆它从未坐上去的自行车旁边飞（15.0）。",
     },
     {
       q: "为什么 AI 画自行车容易翻车？",

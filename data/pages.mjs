@@ -1,17 +1,31 @@
+import { dateLabel, latestTestedAt, numberWord, paddedCount, runCount, testedRange } from "./counts.mjs";
+
+const n = runCount;
+const pad = paddedCount();
+const en = numberWord("en");
+const zh = numberWord("zh");
+const En = en[0].toUpperCase() + en.slice(1);
+const rangeEn = testedRange("en");
+const rangeZh = testedRange("zh");
+const latestEn = dateLabel(latestTestedAt, "en");
+const latestZh = dateLabel(latestTestedAt, "zh");
+const lanesEn = `2–${n} lanes`;
+const lanesZh = `2–${n} 条车道`;
+
 export const pages = {
   home: {
     en: {
-      metaTitle: "Pelican Bicycle Benchmark — 8 AI Models Riding a Bicycle, Animated (2026)",
+      metaTitle: `Pelican Bicycle Benchmark — ${n} AI Models Riding a Bicycle, Animated (2026)`,
       metaDescription:
-        "One prompt, eight AI models: an animated SVG of a pelican riding a bicycle. Watch DeepSeek, Kimi, Doubao, GPT-6.1, GPT-6.0, GPT-5.6, Agnes and HY3 side by side, scored on anatomy, bicycle structure and motion.",
-      eyebrow: "The animated LLM benchmark · 08 runs · 27 Oct 2026",
-      h1: 'Eight AIs. One pelican.<br><em>One bicycle.</em>',
+        `One prompt, ${en} AI models: an animated SVG of a pelican riding a bicycle. Watch Doubao, GLM, Kimi, the GPT variants, DeepSeek, HY3 and Agnes side by side, scored on anatomy, bicycle structure and motion.`,
+      eyebrow: `The animated LLM benchmark · ${pad} runs · ${rangeEn}`,
+      h1: `${En} AIs. One pelican.<br><em>One bicycle.</em>`,
       lede:
-        "The pelican-on-a-bicycle test is the internet's quickest visual check for LLM drawing skills. We extended it: one prompt, eight models, and a scene that has to move.",
+        `The pelican-on-a-bicycle test is the internet's quickest visual check for LLM drawing skills. We extended it: one prompt, ${en} models, and a scene that has to move.`,
       heroNote: "Zero-shot · consumer clients · one run per model",
       promptNote: "Sent once, unchanged, to each model. No follow-ups, no fixes.",
       gridTitle: "The starting grid",
-      gridIntro: "Eight machines, eight interpretations, one shared task. Open a card to watch the full run.",
+      gridIntro: `${En} machines, ${en} interpretations, one shared task. Open a card to watch the full run.`,
       gridCta: "Watch the run",
       rubricTitle: "The 25-point test",
       rubricIntro: "We score the pelican, the bicycle, and — most importantly — the motion.",
@@ -28,31 +42,31 @@ export const pages = {
       runCta: "Get the checklist",
       timelineTitle: "How the pelican got here",
       stats: [
-        { n: "08", l: "runs" },
+        { n: pad, l: "runs" },
         { n: "25", l: "points" },
         { n: "01", l: "prompt" },
         { n: "00", l: "fixes" },
       ],
       faqTitle: "Questions people actually ask",
       faqIntro: "The short version, before you fall down the pelican hole.",
-      closingTitle: 'One prompt. Eight very different pelicans. <em>Judge for yourself.</em>',
+      closingTitle: `One prompt. ${En} very different pelicans. <em>Judge for yourself.</em>`,
       closingBody:
         "This is not a leaderboard of intelligence. It is a quick, visual stress test for spatial reasoning, code generation and — now — motion.",
       closingCta: "Compare the runs",
       scoreNote: "Scores are editorial and based on one run per model.",
     },
     zh: {
-      metaTitle: "鹈鹕骑自行车基准测试：8 款大模型的动画横评（2026）",
+      metaTitle: `鹈鹕骑自行车基准测试：${n} 款大模型的动画横评（2026）`,
       metaDescription:
-        "同一道提示词，八个大模型：用 SVG 画一个鹈鹕骑自行车的 2D 动画。并排看 DeepSeek、Kimi、豆包、GPT-6.1、GPT-6.0、GPT-5.6、Agnes 和 HY3 的成品，按解剖、自行车结构和运动物理逐项打分。",
-      eyebrow: "动画版 LLM 基准 · 08 次运行 · 2026-10-27",
-      h1: "八个 AI，一只鹈鹕，<br><em>一辆自行车。</em>",
+        `同一道提示词，${zh}个大模型：用 SVG 画一个鹈鹕骑自行车的 2D 动画。并排看豆包、GLM、Kimi、几款 GPT、DeepSeek、HY3 和 Agnes 的成品，按解剖、自行车结构和运动物理逐项打分。`,
+      eyebrow: `动画版 LLM 基准 · ${pad} 次运行 · ${rangeZh}`,
+      h1: `${zh}个 AI，一只鹈鹕，<br><em>一辆自行车。</em>`,
       lede:
-        "「鹈鹕骑自行车」是网上流传最广的 LLM 视觉测试。我们把它往前推了一步：同一个提示词、八个模型，而且必须动起来。",
+        `「鹈鹕骑自行车」是网上流传最广的 LLM 视觉测试。我们把它往前推了一步：同一个提示词、${zh}个模型，而且必须动起来。`,
       heroNote: "零样本 · 客户端 · 每个模型一次",
       promptNote: "每个模型只发一次，不追问、不修图。",
       gridTitle: "发车名单",
-      gridIntro: "八台机器，八种理解，同一道题。点开卡片看完整动画。",
+      gridIntro: `${zh}台机器，${zh}种理解，同一道题。点开卡片看完整动画。`,
       gridCta: "看它跑",
       rubricTitle: "25 分制",
       rubricIntro: "我们评鹈鹕、评自行车，更重要的是评运动。",
@@ -69,14 +83,14 @@ export const pages = {
       runCta: "拿检查清单",
       timelineTitle: "鹈鹕是怎么火起来的",
       stats: [
-        { n: "08", l: "次运行" },
+        { n: pad, l: "次运行" },
         { n: "25", l: "分制" },
         { n: "01", l: "道题" },
         { n: "00", l: "修图" },
       ],
       faqTitle: "常见问题",
       faqIntro: "先把话说明白，再掉进鹈鹕洞。",
-      closingTitle: "一句提示词，八只完全不同的鹈鹕。<em>自己判断。</em>",
+      closingTitle: `一句提示词，${zh}只完全不同的鹈鹕。<em>自己判断。</em>`,
       closingBody:
         "这不是「智能排行榜」，而是一次快速、直观的压力测试：空间推理、代码生成，现在还加上运动。",
       closingCta: "并排对比",
@@ -87,13 +101,13 @@ export const pages = {
     en: {
       metaTitle: "Leaderboard — Pelican Bicycle Benchmark",
       metaDescription:
-        "All eight animated pelican-on-a-bicycle runs, ranked by a 25-point rubric covering semantics, anatomy, bicycle structure, motion physics and polish.",
+        `All ${en} animated pelican-on-a-bicycle runs, ranked by a 25-point rubric covering semantics, anatomy, bicycle structure, motion physics and polish.`,
       eyebrow: "Scoreboard · 25 points",
       title: "The leaderboard",
       intro:
-        "Eight runs, sorted by total score. Each total is the sum of five editorial scores, each out of 5.",
+        `${En} runs, sorted by total score. Each total is the sum of five editorial scores, each out of 5.`,
       note:
-        "One zero-shot run per model, consumer clients, 27 Oct 2026. These are editorial scores, not an automated or general-intelligence ranking. Client-side model versions can change without notice.",
+        `One zero-shot run per model, consumer clients, ${rangeEn}. These are editorial scores, not an automated or general-intelligence ranking. Client-side model versions can change without notice.`,
       tableNote: "Click a run to open its full scorecard and original HTML.",
       back: "Back to the grid",
       methodCta: "How we score",
@@ -101,12 +115,12 @@ export const pages = {
     zh: {
       metaTitle: "榜单 — 鹈鹕骑自行车基准测试",
       metaDescription:
-        "八次鹈鹕骑车动画运行，按 25 分制排名：语义、解剖、自行车结构、运动物理、完成度与交互。点开任意一条，查看完整评分卡和原始 HTML 动画。",
+        `${zh}次鹈鹕骑车动画运行，按 25 分制排名：语义、解剖、自行车结构、运动物理、完成度与交互。点开任意一条，查看完整评分卡和原始 HTML 动画。`,
       eyebrow: "记分牌 · 25 分",
       title: "榜单",
-      intro: "八次运行，按总分排序。总分是五项编辑评分的加总，每项 5 分。",
+      intro: `${zh}次运行，按总分排序。总分是五项编辑评分的加总，每项 5 分。`,
       note:
-        "每个模型一次零样本运行，客户端，2026-10-27。这是编辑评分，不是自动化评分，也不是通用智能排名。客户端模型版本可能随时变化。",
+        `每个模型一次零样本运行，客户端，${rangeZh}。这是编辑评分，不是自动化评分，也不是通用智能排名。客户端模型版本可能随时变化。`,
       tableNote: "点开任意一条，查看完整评分卡和原始 HTML。",
       back: "回到发车名单",
       methodCta: "评分方法",
@@ -117,7 +131,7 @@ export const pages = {
       metaTitle: "Compare the runs — Pelican Bicycle Benchmark",
       metaDescription:
         "Load two or more animated pelican-on-a-bicycle runs, start them together and compare the same second. Synchronized play, pause and restart.",
-      eyebrow: "Sync room · 2–8 lanes",
+      eyebrow: `Sync room · ${lanesEn}`,
       title: "Compare the same second",
       intro:
         "Load two or more runs, start them together, and watch what each model does with the same moment. The controls drive each model's own animation; nothing is re-rendered or edited.",
@@ -138,8 +152,8 @@ export const pages = {
     zh: {
       metaTitle: "并排对比 — 鹈鹕骑自行车基准测试",
       metaDescription:
-        "加载两个或更多鹈鹕骑车动画，同步开始、暂停、重来，对比同一秒钟。支持 2–8 条车道并排，直接驱动模型自己的动画，不重绘、不剪辑。",
-      eyebrow: "同步室 · 2–8 条车道",
+        `加载两个或更多鹈鹕骑车动画，同步开始、暂停、重来，对比同一秒钟。支持 ${lanesZh}并排，直接驱动模型自己的动画，不重绘、不剪辑。`,
+      eyebrow: `同步室 · ${lanesZh}`,
       title: "对比同一秒钟",
       intro:
         "加载两次或更多运行，同时开始，看每个模型在同一时刻做了什么。控制条直接驱动模型自己的动画，不重绘、不剪辑。",
@@ -162,7 +176,7 @@ export const pages = {
     en: {
       metaTitle: "The pelican bicycle prompt — exact text and checklist",
       metaDescription:
-        "The exact prompt used in the animated pelican bicycle benchmark, plus a 10-point checklist to test your own AI and spot bikes that slide, feet that hover and riders that float.",
+        "The exact prompt behind the animated pelican bicycle benchmark, a 10-point checklist for testing your own AI, and the reversed-prompt control run.",
       eyebrow: "Copy · paste · watch",
       title: "The prompt",
       intro:
@@ -179,11 +193,21 @@ export const pages = {
         "The prompt explicitly says no tests and no restrictions. We did not add style guidance or fix the outputs.",
       download: "Download the prompt (.txt)",
       cta: "See the results",
+      reverseLabel: "Control flip",
+      reverseTitle: "Swap the two nouns and the model has to think",
+      reverseIntro:
+        "The same sentence with subject and object reversed. It is a semantic test more than a drawing test: a model that only pattern-matched \"pelican bicycle\" keeps producing the original.",
+      reversePromptLabel: "Reversed prompt",
+      reverseRunLabel: "Control run",
+      reverseNotRanked:
+        "One model, one attempt — far too thin to score. It stays off the leaderboard and sits here as a control.",
+      reverseWorks: "What it got right",
+      reverseBreaks: "Where it breaks",
     },
     zh: {
       metaTitle: "鹈鹕骑自行车提示词：原文与检查清单",
       metaDescription:
-        "动画版鹈鹕骑自行车基准的完整提示词，以及 10 条自查清单：识别打滑的车、悬空的脚和飘在车外的骑手。复制即可测试你自己的模型。",
+        "动画版鹈鹕骑自行车基准的完整提示词、10 条自查清单，以及把主宾对调的反向对照运行。复制即可测试你自己的模型。",
       eyebrow: "复制 · 粘贴 · 看结果",
       title: "提示词",
       intro: "这是发给每个模型的完整原文，故意保持开放：没有风格指南、没有零件清单、没有测试。",
@@ -198,6 +222,15 @@ export const pages = {
       caveat: "提示词明确写了「不需要测试、不要有限制」。我们没有追加风格要求，也没有修图。",
       download: "下载提示词（.txt）",
       cta: "看测试结果",
+      reverseLabel: "反向对照",
+      reverseTitle: "把两个名词对调，模型就得真的思考",
+      reverseIntro:
+        "同一句话，主语和宾语互换。它更像语义测试而不是作画测试：只会模式匹配「鹈鹕骑自行车」的模型，会继续画出原题。",
+      reversePromptLabel: "反向提示词",
+      reverseRunLabel: "对照运行",
+      reverseNotRanked: "只有一个模型、一次尝试，样本太薄不足以打分。它不进排行榜，只作为对照组放在这里。",
+      reverseWorks: "它做对了什么",
+      reverseBreaks: "它在哪里露馅",
     },
   },
   methodology: {
@@ -205,10 +238,10 @@ export const pages = {
       metaTitle: "Methodology — Pelican Bicycle Benchmark",
       metaDescription:
         "How the animated pelican bicycle benchmark was run: prompt, models, access, scoring rubric, limitations and attribution to Simon Willison's original test.",
-      eyebrow: "Method · v1",
+      eyebrow: "Method · v1.1",
       title: "Methodology",
       intro:
-        "A small, transparent test. One prompt, eight consumer clients, one run each, and a five-part editorial score. Here is exactly what we did — and what we did not do.",
+        `A small, transparent test. One prompt, ${en} consumer clients, one run each, and a five-part editorial score. Here is exactly what we did — and what we did not do.`,
       originTitle: "Where the test comes from",
       originBody:
         "On 25 October 2024, Simon Willison asked a set of LLMs to “Generate an SVG of a pelican riding a bicycle.” The results were funny, revealing and easy to compare, and the prompt became an informal benchmark. It tests spatial reasoning and code generation through a task that is trivial to state and surprisingly hard to satisfy.",
@@ -219,8 +252,8 @@ export const pages = {
       protocol: [
         "One prompt, identical text, no follow-ups and no corrections.",
         "One run per model. No cherry-picking, no regenerations.",
-        "Consumer clients, default settings, tested on 27 October 2026.",
-        "Outputs saved as self-contained HTML. No external network requests were present in the eight artifacts.",
+        `Consumer clients, default settings, tested ${rangeEn}.`,
+        `Outputs saved as self-contained HTML. No external network requests were present in the ${en} artifacts.`,
         "Outputs are displayed unmodified. Only the wrapper around them is ours.",
         "Scores are editorial, produced by a human against the rubric below. They are not automated measurements.",
       ],
@@ -235,9 +268,12 @@ export const pages = {
       ],
       attributionTitle: "Attribution",
       attributionBody:
-        'The pelican-on-a-bicycle test was created by Simon Willison. Read his <a href="https://simonwillison.net/2024/Oct/25/pelican-riding-a-bicycle/" target="_blank" rel="noopener">original post</a>, the <a href="https://github.com/simonw/pelican-bicycle" target="_blank" rel="noopener">GitHub repository of model outputs</a> and the <a href="https://simonwillison.net/2025/Jun/6/six-months-in-llms/" target="_blank" rel="noopener">2025 talk-turned-article</a>. For the 2026 “pelicanmaxxing” study of 1,000+ SVGs, see <a href="https://dylancastillo.co/posts/pelicanmaxxing.html" target="_blank" rel="noopener">Dylan Castillo’s analysis</a>. The eight HTML files on this site were generated by the named models and are displayed unmodified.',
+        `The pelican-on-a-bicycle test was created by Simon Willison. Read his <a href="https://simonwillison.net/2024/Oct/25/pelican-riding-a-bicycle/" target="_blank" rel="noopener">original post</a>, the <a href="https://github.com/simonw/pelican-bicycle" target="_blank" rel="noopener">GitHub repository of model outputs</a> and the <a href="https://simonwillison.net/2025/Jun/6/six-months-in-llms/" target="_blank" rel="noopener">2025 talk-turned-article</a>. For the 2026 “pelicanmaxxing” study of 1,000+ SVGs, see <a href="https://dylancastillo.co/posts/pelicanmaxxing.html" target="_blank" rel="noopener">Dylan Castillo’s analysis</a>. The ${en} HTML files on this site were generated by the named models and are displayed unmodified.`,
       changelogTitle: "Changelog",
-      changelog: ["27 Oct 2026 — v1: eight runs, bilingual English/Chinese site, animated scorecard and sync comparison."],
+      changelog: [
+        `${latestEn} — v1.1: two runs added (GLM 5.3 Flash, DeepSeek V4.1 Flash). The field is now ${en}.`,
+        "27 Oct 2026 — v1: eight runs, bilingual English/Chinese site, animated scorecard and sync comparison.",
+      ],
       protocolTitleShort: "Protocol",
       rubricNote: "Each dimension is scored 0–5. The total is out of 25.",
       accessValue: "Consumer client, zero-shot",
@@ -246,10 +282,10 @@ export const pages = {
       metaTitle: "测试方法 — 鹈鹕骑自行车基准测试",
       metaDescription:
         "动画版鹈鹕骑车基准如何运行：提示词、模型、测试方式、评分标准、局限，以及 Simon Willison 原版测试的来源。",
-      eyebrow: "方法 · v1",
+      eyebrow: "方法 · v1.1",
       title: "测试方法",
       intro:
-        "一个小而透明的测试：一句提示词、八个客户端、每个模型一次运行、五项编辑评分。下面是具体做法，以及我们没有做什么。",
+        `一个小而透明的测试：一句提示词、${zh}个客户端、每个模型一次运行、五项编辑评分。下面是具体做法，以及我们没有做什么。`,
       originTitle: "测试的由来",
       originBody:
         "2024 年 10 月 25 日，Simon Willison 让一批 LLM「生成一张鹈鹕骑自行车的 SVG」。结果好笑、信息量大、又容易横向比较，这个提示词从此变成了民间基准。它用一个说起来简单、做起来很难的任务，同时考察空间推理和代码生成。",
@@ -260,8 +296,8 @@ export const pages = {
       protocol: [
         "一句提示词，原文一致，不追问、不纠正。",
         "每个模型一次运行，不挑结果、不重生成。",
-        "客户端、默认设置，测试日期 2026-10-27。",
-        "输出保存为自包含 HTML。八个文件均未发现外部网络请求。",
+        `客户端、默认设置，测试日期 ${rangeZh}。`,
+        `输出保存为自包含 HTML。${zh}个文件均未发现外部网络请求。`,
         "输出原样展示，只有外层包装是我们的。",
         "评分由人工按下面的标准给出，不是自动化测量。",
       ],
@@ -276,9 +312,12 @@ export const pages = {
       ],
       attributionTitle: "来源与致谢",
       attributionBody:
-        '「鹈鹕骑自行车」测试由 Simon Willison 创建。可以读他的<a href="https://simonwillison.net/2024/Oct/25/pelican-riding-a-bicycle/" target="_blank" rel="noopener">原始文章</a>、<a href="https://github.com/simonw/pelican-bicycle" target="_blank" rel="noopener">模型输出 GitHub 仓库</a>，以及 2025 年的<a href="https://simonwillison.net/2025/Jun/6/six-months-in-llms/" target="_blank" rel="noopener">演讲文章</a>。2026 年那份生成 1000+ 张 SVG 的「pelicanmaxxing」研究，见 <a href="https://dylancastillo.co/posts/pelicanmaxxing.html" target="_blank" rel="noopener">Dylan Castillo 的分析</a>。本站的八个 HTML 文件由对应模型生成，原样展示。',
+        `「鹈鹕骑自行车」测试由 Simon Willison 创建。可以读他的<a href="https://simonwillison.net/2024/Oct/25/pelican-riding-a-bicycle/" target="_blank" rel="noopener">原始文章</a>、<a href="https://github.com/simonw/pelican-bicycle" target="_blank" rel="noopener">模型输出 GitHub 仓库</a>，以及 2025 年的<a href="https://simonwillison.net/2025/Jun/6/six-months-in-llms/" target="_blank" rel="noopener">演讲文章</a>。2026 年那份生成 1000+ 张 SVG 的「pelicanmaxxing」研究，见 <a href="https://dylancastillo.co/posts/pelicanmaxxing.html" target="_blank" rel="noopener">Dylan Castillo 的分析</a>。本站的${zh}个 HTML 文件由对应模型生成，原样展示。`,
       changelogTitle: "更新记录",
-      changelog: ["2026-10-27 — v1：八次运行，中英双语站点，动画评分卡与同步对比。"],
+      changelog: [
+        `${latestZh} — v1.1：新增 GLM 5.3 Flash 与 DeepSeek V4.1 Flash 两次运行，共${zh}次。`,
+        "2026-10-27 — v1：八次运行，中英双语站点，动画评分卡与同步对比。",
+      ],
       protocolTitleShort: "流程",
       rubricNote: "每项 0–5 分，总分 25 分。",
       accessValue: "客户端，零样本",
@@ -302,6 +341,7 @@ export const pages = {
       motion: "Motion check",
       spec: "Spec",
       vendorLabel: "Vendor",
+      clientLabel: "Client",
       accessLabel: "Access",
       accessValue: "Consumer client, zero-shot",
       testedLabel: "Tested",
@@ -333,6 +373,7 @@ export const pages = {
       motion: "运动检查",
       spec: "规格",
       vendorLabel: "厂商",
+      clientLabel: "客户端",
       accessLabel: "测试方式",
       accessValue: "客户端，零样本",
       testedLabel: "测试日期",

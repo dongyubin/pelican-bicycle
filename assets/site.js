@@ -356,10 +356,12 @@
   function pauseNative(lane, wantPaused) {
     const doc = getDoc(lane);
     if (!doc) return false;
-    const button = doc.querySelector("#pauseBtn, #toggle");
+    const button = doc.querySelector("#pauseBtn, #btnPause, #toggle");
     if (!button) return false;
     const pausedNow =
-      /继续/.test(button.textContent || "") || button.getAttribute("aria-pressed") === "true";
+      /继续/.test(button.textContent || "") ||
+      /播放/.test(button.getAttribute("aria-label") || "") ||
+      button.getAttribute("aria-pressed") === "true";
     if (pausedNow !== wantPaused) {
       try {
         button.click();
