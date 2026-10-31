@@ -6,7 +6,7 @@ A bilingual (English / 简体中文) static benchmark site for the animated peli
 
 ```bash
 npm install        # one dev dependency: playwright-core
-npm run build      # render 30 pages + 404 into dist/
+npm run build      # render 34 pages + 404 into dist/
 npm run serve      # preview dist/ at http://localhost:8899 (PORT=... to change)
 npm run posters    # re-shoot posters and OG cards (needs Chrome + ImageMagick)
 ```

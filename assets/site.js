@@ -138,6 +138,33 @@
         current.src = `${source}${source.includes("?") ? "&" : "?"}run=${Date.now()}`;
       });
     }
+
+    const fsBtn = $("[data-fullscreen]", frame);
+    if (!fsBtn || typeof frame.requestFullscreen !== "function" || document.fullscreenEnabled === false) {
+      if (fsBtn) fsBtn.hidden = true;
+      return;
+    }
+    const enterLabel = fsBtn.getAttribute("aria-label");
+    const exitLabel = fsBtn.dataset.exit || enterLabel;
+
+    fsBtn.addEventListener("click", () => {
+      if (document.fullscreenElement === frame) {
+        document.exitFullscreen();
+        return;
+      }
+      if (!iframe) loadIframe();
+      frame.requestFullscreen().catch(() => {
+        fsBtn.hidden = true;
+      });
+    });
+
+    document.addEventListener("fullscreenchange", () => {
+      const on = document.fullscreenElement === frame;
+      frame.classList.toggle("is-fullscreen", on);
+      const label = on ? exitLabel : enterLabel;
+      fsBtn.setAttribute("aria-label", label);
+      fsBtn.title = label;
+    });
   });
 
   /* ---------- Compare harness ---------- */
