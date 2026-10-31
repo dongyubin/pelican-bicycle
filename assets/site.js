@@ -373,8 +373,69 @@
     return true;
   }
 
+  /* Runs whose motion is driven by requestAnimationFrame ignore WAAPI entirely,
+     so the lane gates the child window's rAF queue instead. */
+  function installRafGate(lane) {
+    let win = null;
+    try {
+      win = lane.iframe && lane.iframe.contentWindow;
+    } catch {
+      return;
+    }
+    if (!win || win.__pelicanRafGate) return;
+    const gate = {
+      paused: false,
+      seq: 0,
+      pending: new Map(),
+      real: new Map(),
+      original: win.requestAnimationFrame.bind(win),
+      cancel: win.cancelAnimationFrame.bind(win),
+    };
+    win.__pelicanRafGate = gate;
+    win.requestAnimationFrame = (callback) => {
+      gate.seq += 1;
+      const id = gate.seq;
+      if (gate.paused) gate.pending.set(id, callback);
+      else gate.real.set(id, gate.original(callback));
+      return id;
+    };
+    win.cancelAnimationFrame = (id) => {
+      if (gate.pending.delete(id)) return;
+      const realId = gate.real.get(id);
+      if (realId !== undefined) {
+        gate.cancel(realId);
+        gate.real.delete(id);
+      }
+    };
+  }
+
+  function setRafPaused(lane, wantPaused) {
+    let gate = null;
+    try {
+      gate = lane.iframe && lane.iframe.contentWindow.__pelicanRafGate;
+    } catch {
+      return false;
+    }
+    if (!gate) return false;
+    if (gate.paused === wantPaused) return true;
+    gate.paused = wantPaused;
+    if (!wantPaused) {
+      const queued = [...gate.pending.entries()];
+      gate.pending.clear();
+      for (const [id, callback] of queued) {
+        try {
+          gate.real.set(id, gate.original(callback));
+        } catch {
+          /* ignore */
+        }
+      }
+    }
+    return true;
+  }
+
   function prepareLane(lane) {
     if (lane.model.control === "button" && pauseNative(lane, true)) return;
+    if (lane.model.control === "raf") setRafPaused(lane, true);
     const animations = getAnimations(lane);
     for (const animation of animations) {
       try {
@@ -388,6 +449,7 @@
 
   function playLane(lane) {
     if (lane.model.control === "button" && pauseNative(lane, false)) return;
+    if (lane.model.control === "raf") setRafPaused(lane, false);
     const animations = getAnimations(lane);
     for (const animation of animations) {
       try {
@@ -400,6 +462,7 @@
 
   function pauseLane(lane) {
     if (lane.model.control === "button" && pauseNative(lane, true)) return;
+    if (lane.model.control === "raf") setRafPaused(lane, true);
     const animations = getAnimations(lane);
     for (const animation of animations) {
       try {
@@ -453,6 +516,7 @@
             style.textContent = ".control{display:none!important}";
             doc.head?.appendChild(style);
           }
+          if (lane.model.control === "raf") installRafGate(lane);
         })
       );
     }

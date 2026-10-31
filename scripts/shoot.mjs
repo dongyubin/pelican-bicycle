@@ -136,7 +136,7 @@ async function capturePosters(browser) {
       await page.goto(pathToFileURL(source).href, { waitUntil: "load" });
       await page.addStyleTag({
         content:
-          ".title,.control,.hint,.badge,.controls,.caption{visibility:hidden!important}*{border-radius:0!important}",
+          ".title,.hud,.control,.hint,.badge,.controls,.caption{visibility:hidden!important}*{border-radius:0!important}",
       });
       await page.waitForTimeout(1100);
       await pauseScene(page, still[model.slug] || {});

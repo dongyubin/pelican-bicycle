@@ -256,6 +256,8 @@ export const timeline = {
     { date: "2026", text: "“Pelicanmaxxing” studies generate 1,000+ SVGs. Static images are still the default." },
     { date: "27 Oct 2026", text: "This site extends the test to animated, interactive HTML: eight models, one prompt." },
     { date: "28 Oct 2026", text: "Two more runs join the field, and the top of the board becomes a tie." },
+    { date: "31 Oct 2026", text: "An eleventh run joins: spinning wheels and the best seaside scene here, on a bicycle with no pedals." },
+    { date: "31 Oct 2026", text: "A twelfth run joins and lands third: feet welded to the pedals and gearing within 1% of true rolling — on legs that stretch by almost a quarter of their length every stroke." },
   ],
   zh: [
     { date: "2024-10-25", text: "Simon Willison 让模型生成一张「鹈鹕骑自行车的 SVG」。这个玩笑从此变成了基准测试。" },
@@ -263,6 +265,8 @@ export const timeline = {
     { date: "2026", text: "「Pelicanmaxxing」研究生成了 1000+ 张 SVG。静态图片仍是主流。" },
     { date: "2026-10-27", text: "本站把测试推进到可交互动画：八个模型，同一道题。" },
     { date: "2026-10-28", text: "两次新运行加入，榜首变成并列。" },
+    { date: "2026-10-31", text: "第十一次运行加入：轮子在转、海边场景全场最好，但那辆自行车没有脚踏。" },
+    { date: "2026-10-31", text: "第十二次运行加入，直接排到第三：脚焊在踏板上、齿比离纯滚动只差 1%，代价是腿每蹬一圈就伸长近四分之一。" },
   ],
 };
 
@@ -320,7 +324,7 @@ export const faq = {
     },
     {
       q: "Which model won this animated test?",
-      a: "Two runs tie at the top with 23.5 out of 25. Doubao 2.1 Pro is the only run whose legs solve inverse kinematics, so both feet stay on the pedals through the whole crank cycle, and it ships a working pause/speed/bell panel. GLM 5.3 Flash has the cleanest motion chain we measured: wheels, cranks, self-levelling pedals and feet welded to them, plus a pause button and a speed slider. Kimi K3.1 Pro (21.5) is the most elaborate scene. GPT-6.1 Sol is the strongest OpenAI entry at 20.5; the two later GPT variants scored 18.5 and 17.5. DeepSeek Flash draws the best still image, but its wheels and crank never move. DeepSeek V4.1 Flash has the best art direction of the ten and the worst contact story: its pelican soars beside a bicycle it never sits on (15.0).",
+      a: "Two runs tie at the top with 23.5 out of 25. Doubao 2.1 Pro is the most complete ride: its inverse kinematics keeps the thigh at exactly 86 units and the shin at 82 while both feet stay welded to the pedals, and it ships a working pause/speed/bell panel. GLM 5.3 Flash has the cleanest motion chain we measured — wheels, cranks, self-levelling pedals and feet welded to them, with every wheel revolution derived from ground speed divided by wheel radius rather than eyeballed — plus a pause button and a speed slider. MiniMax M3.1 Flash (22.5) writes the same solver and gets the feet right, but normalises the knee's perpendicular offset, so its legs stretch by nearly a quarter of their length every stroke. Kimi K3.1 Pro (21.5) is the most elaborate scene. GPT-6.1 Sol is the strongest OpenAI entry at 20.5; the three other GPT variants score 18.5, 17.5 and 17.5 — GPT-6.1 Terra among them paints the site's best seaside scene on a bicycle with no pedals. DeepSeek Flash draws the best still image, but its wheels and crank never move. DeepSeek V4.1 Flash has the best art direction in the field and the worst contact story: its pelican soars beside a bicycle it never sits on (15.0).",
     },
     {
       q: "Why do AI models struggle with bicycles?",
@@ -350,7 +354,7 @@ export const faq = {
     },
     {
       q: "这次动画测试谁赢了？",
-      a: "两次运行以 23.5 / 25 并列第一。豆包 2.1 Pro 是唯一用逆向运动学驱动腿部的运行，双脚在整个曲柄周期里都踩在踏板上，还带可用的暂停、变速和车铃控制。GLM 5.3 Flash 是我们实测下来运动链最标准的一次：轮子、曲柄、自平衡脚踏全在转，脚焊在踏板上，另有暂停键和速度滑杆。Kimi K3.1 Pro（21.5）的场景最铺张。GPT-6.1 Sol 是 OpenAI 阵营最高分，20.5；后来补测的两款 GPT 分别是 18.5 和 17.5。DeepSeek Flash 的静帧最好看，但轮子和曲柄完全不转。DeepSeek V4.1 Flash 是十次运行里美术最强的一次，也是接触关系最差的一次：鹈鹕在一辆它从未坐上去的自行车旁边飞（15.0）。",
+      a: "两次运行以 23.5 / 25 并列第一。豆包 2.1 Pro 是骑行系统最完整的一次：它的逆运动学让大腿恒为 86 单位、小腿恒为 82 单位，双脚全程焊在踏板上，还带可用的暂停、变速和车铃控制。GLM 5.3 Flash 是我们实测下来运动链最标准的一次：轮子、曲柄、自平衡脚踏全在转，脚焊在踏板上，而且轮子的角速度是用地面速度除以轮半径算出来的，不是估的，另有暂停键和速度滑杆。MiniMax M3.1 Flash（22.5）写的是同一个解算器，脚也算对了，但膝盖的垂直偏移被归一化了，于是腿每蹬一圈就伸缩近四分之一。Kimi K3.1 Pro（21.5）的场景最铺张。GPT-6.1 Sol 是 OpenAI 阵营最高分，20.5；另外三款 GPT 分别是 18.5、17.5 和 17.5——其中的 GPT-6.1 Terra 画出了全站最好看的海边场景，却骑在一辆没有脚踏的车上。DeepSeek Flash 的静帧最好看，但轮子和曲柄完全不转。DeepSeek V4.1 Flash 是全场美术最强的一次，也是接触关系最差的一次：鹈鹕在一辆它从未坐上去的自行车旁边飞（15.0）。",
     },
     {
       q: "为什么 AI 画自行车容易翻车？",

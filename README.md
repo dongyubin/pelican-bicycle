@@ -1,6 +1,6 @@
 # Pelican Bicycle
 
-A bilingual (English / 简体中文) static benchmark site for the animated pelican-on-a-bicycle test. Ten models got one identical prompt in a consumer client; their original HTML animations are shown unmodified next to editorial scorecards.
+A bilingual (English / 简体中文) static benchmark site for the animated pelican-on-a-bicycle test. Every model got one identical prompt in a consumer client; their original HTML animations are shown unmodified next to editorial scorecards.
 
 ## Commands
 
@@ -35,7 +35,8 @@ assets/                 site.css, site.js, fonts, posters, OG images
 ## Adding a run
 
 1. Put the model's self-contained HTML in `鹈鹕骑自行车/` and add its filename as `artifact` plus the source path as `source` in `data/models.json`.
-2. Add an entry to `data/models.json` with a unique `slug`, `bib`, bilingual `name`, `vendor`/`vendorZh`, `role`, `tagline`, `accent`, `control` mode (`waapi`, `button`, or `none`), the five scores (each out of 5), and the bilingual `verdict` / `works` / `breaks` / `motionCheck` content. Add `testedAt` when the run happened on a different date than the top-level `testedAt`, and `client`/`clientZh` when the run came through a named client app.
+2. Add an entry to `data/models.json` with a unique `slug`, `bib`, bilingual `name`, `vendor`/`vendorZh`, `role`, `tagline`, `accent`, `control` mode, the five scores (each out of 5), and the bilingual `verdict` / `works` / `breaks` / `motionCheck` content. Add `testedAt` when the run happened on a different date than the top-level `testedAt`, and `client`/`clientZh` when the run came through a named client app.
+   `control` decides how the compare page freezes that lane: `waapi` pauses the document's CSS/Web Animations, `button` clicks the run's own pause button, `raf` additionally gates the child window's `requestAnimationFrame` queue for runs whose motion is JS-driven, and `none` leaves the lane unpausable.
 3. Run `npm run posters` to generate `assets/posters/<slug>.webp` and `assets/og/<slug>.png`. `scripts/shoot.mjs` has a `still` map for runs that need a specific frame, a native button click, or a cancelled animation; add the new slug there if its poster needs one.
 4. Run `npm run build`.
 
@@ -47,6 +48,6 @@ Pages, ranking order, JSON-LD, sitemap entries, language switchers, the run coun
 
 ## Scoring
 
-Five dimensions — semantics, anatomy/contact, bicycle structure, motion physics, polish/interaction — each scored 0–5, total out of 25. Scores are editorial, one zero-shot run per model, tested on 2026-10-27 and 2026-10-28. Full rubric: `/methodology/`.
+Five dimensions — semantics, anatomy/contact, bicycle structure, motion physics, polish/interaction — each scored 0–5, total out of 25. Scores are editorial, one zero-shot run per model, tested on 2026-10-27, 2026-10-28 and 2026-10-31. Full rubric: `/methodology/`.
 
 The canonical pelican test comes from Simon Willison; this site is an animated extension and is not affiliated with the models, vendors or the original authors.
